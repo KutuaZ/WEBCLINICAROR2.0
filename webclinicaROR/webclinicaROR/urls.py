@@ -20,7 +20,7 @@ from django.urls import path
 from core.views import index_estatico, formulario_reserva
 
 urlpatterns = [
-    # ('admin/', admin.site.urls),
-    path("paginasinicio", index_estatico, name="index"),
-    path("paginasinicio", formulario_reserva, name="reserva"),
+    # path('admin/', admin.site.urls),
+    path("index/", index_estatico, name="index"),
+    path("reserva/", formulario_reserva, name="reserva"),
 ]
