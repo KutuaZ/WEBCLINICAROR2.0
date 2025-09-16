@@ -1,19 +1,22 @@
+{% load static %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROR-Med Clinic</title>
-    <link rel="icon" href="/assets/icon/favicon.png" type="favicon"></a>
+    <link rel="icon" href="{% static '/assets/icon/favicon.png' %}" type="favicon"></a>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
 </head>
 <body>
     <!-- barra de navegacion-->
 <nav class="navbar navbar-expand-lg bg-light fixed-top">
     <div class="container">
-    <a href="index.html">
-    <img src="/assets/icon/clinic.png" alt="logo clinica" class="logo" id="logo"></a>
+    <a href="{% url 'index' %}">
+    <img src="{% static '/assets/icon/clinic.png' %}" alt="logo clinica" class="logo" id="logo"></a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,17 +25,18 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-        <li class="nav-item"><a class="nav-link" href="reserva.html">Reserva hora</a></li>
-        <li class="nav-item"><a class="nav-link" href="especialidades.html">Especialidades</a></li>
-        <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
-        <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
-        <li class="nav-item"><a class="nav-link" href="iniciarsesion.html">Iniciar Sesion</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'reserva' %}">Reserva hora</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'especialidades' %}">Especialidades</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'iniciarsesion' %}">Iniciar Sesion</a></li>
         </ul>
     </div>
     </div>
 </nav>
     <!-- fin barra de navegacion-->
+
 
 
 <!---seccion nosotros cartas-->
@@ -45,7 +49,7 @@
 
     <!-- Imagen -->
     <section class="text-center mb-5">
-    <img src="/assets/image/imagengrupo.png" alt="Imagen sobre nosotros" class="img-fluid rounded">
+    <img src="{% static '/assets/image/imagengrupo.png' %}" alt="Imagen sobre nosotros" class="img-fluid rounded">
     </section>
 
     <!-- Cartas -->
@@ -123,16 +127,16 @@
     </div>
     <div class="carousel-inner intalaciones">
         <div class="carousel-item active">
-        <img src="/assets/image/intalacion1.png" class="carousel-instalaciones" class="d-block w-100" alt="Instalación 1">
+        <img src="{% static '/assets/image/intalacion1.png' %}" class="carousel-instalaciones" class="d-block w-100" alt="Instalación 1">
         </div>
         <div class="carousel-item">
-        <img src="/assets/image/intalacion2.png" class="carousel-instalaciones" class="d-block w-100" alt="Instalación 2">
+        <img src="{% static '/assets/image/intalacion2.png' %}" class="carousel-instalaciones" class="d-block w-100" alt="Instalación 2">
         </div>
         <div class="carousel-item">
-        <img src="/assets/image/intalacion3.png" class="carousel-instalaciones" class="d-block w-100" alt="Instalación 3">
+        <img src="{% static '/assets/image/intalacion3.png' %}" class="carousel-instalaciones" class="d-block w-100" alt="Instalación 3">
         </div>
         <div class="carousel-item">
-        <img src="/assets/image/intalacion4.png" class="carousel-instalaciones d-block mx-auto" alt="Instalación 4">
+        <img src="{% static '/assets/image/intalacion4.png' %}" class="carousel-instalaciones d-block mx-auto" alt="Instalación 4">
         </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -163,7 +167,7 @@
     <!-- Imagen acreditado izquierda y número derecha -->
     <div class="d-flex justify-content-between align-items-center flex-wrap">
         <div class="d-flex align-items-center mb-2">
-        <img src="/assets/image/saludacredit.png" alt="Acreditado" class="img-fluid" style="max-height:190px;">
+        <img src="{% static '/assets/image/saludacredit.png' %}" alt="Acreditado" class="img-fluid" style="max-height:190px;">
         </div>
         <div class="mb-2">
         <p class="mb-0">Numero de emergencia 24 Horas: +56 9 1234 5678</p>

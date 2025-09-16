@@ -1,20 +1,24 @@
+{% load static %}
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROR-Med Clinic</title>
-    <link rel="icon" href="/assets/icon/favicon.png" type="favicon"></a>
+    <link rel="icon" href="{% static '/assets/icon/favicon.png' %}" type="favicon"></a>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/especialidades.css">
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static '/css/especialidades.css' %}">
 </head>
 <body>
     <!-- barra de navegacion-->
 <nav class="navbar navbar-expand-lg bg-light fixed-top">
     <div class="container">
-    <a href="index.html">
-    <img src="/assets/icon/clinic.png" alt="logo clinica" class="logo" id="logo"></a>
+    <a href="{% url 'index' %}">
+    <img src="{% static '/assets/icon/clinic.png' %}" alt="logo clinica" class="logo" id="logo"></a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,12 +27,12 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-        <li class="nav-item"><a class="nav-link" href="reserva.html">Reserva hora</a></li>
-        <li class="nav-item"><a class="nav-link" href="especialidades.html">Especialidades</a></li>
-        <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
-        <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
-        <li class="nav-item"><a class="nav-link" href="iniciarsesion.html">Iniciar Sesion</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'reserva' %}">Reserva hora</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'especialidades' %}">Especialidades</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'iniciarsesion' %}">Iniciar Sesion</a></li>
         </ul>
     </div>
     </div>
@@ -40,7 +44,7 @@
     <section class="acordeon-item">
         <button class="acordeon-boton">Medicina General</button>
         <div class="acordeon-contenido">
-        <img src="/assets/image/general.png" alt="icono general" class="icono-especialidad">
+        <img src="{% static '/assets/image/general.png' %}" alt="icono general" class="icono-especialidad">
         <p>Atención primaria de salud, diagnósticos generales y derivación a especialistas.</p>
         </div>
     </section>
@@ -48,7 +52,7 @@
     <section class="acordeon-item">
         <button class="acordeon-boton">Pediatría</button>
         <div class="acordeon-contenido">
-        <img src="/assets/image/pediatria.png" alt="icono pediatria" class="icono-especialidad">
+        <img src="{% static '/assets/image/pediatria.png' %}" alt="icono pediatria" class="icono-especialidad">
         <p>Cuidado de la salud infantil desde el nacimiento hasta la adolescencia.</p>
         </div>
     </section>
@@ -56,7 +60,7 @@
     <section class="acordeon-item">
         <button class="acordeon-boton">Dermatología</button>
         <div class="acordeon-contenido">
-        <img src="/assets/image/dermato.png" alt="icono dermato" class="icono-especialidad">
+        <img src={% static '/assets/image/dermato.png' %} alt="icono dermato" class="icono-especialidad">
         <p>Diagnóstico y tratamiento de enfermedades de la piel, cabello y uñas.</p>
         </div>
     </section>
@@ -64,7 +68,7 @@
     <section class="acordeon-item">
         <button class="acordeon-boton">Cardiología</button>
         <div class="acordeon-contenido">
-        <img src="/assets/image/cardiologia.png" alt="icono cardiologia" class="icono-especialidad">
+        <img src="{% static '/assets/image/cardiologia.png' %}" alt="icono cardiologia" class="icono-especialidad">
         <p>Atención y prevención de enfermedades cardiovasculares.</p>
         </div>
     </section>
@@ -72,7 +76,7 @@
     <section class="acordeon-item">
         <button class="acordeon-boton">Ginecología</button>
         <div class="acordeon-contenido">
-        <img src="/assets/image/ginecologia.png" alt="icono ginecologia" class="icono-especialidad">    
+        <img src="{% static '/assets/image/ginecologia.png' %}" alt="icono ginecologia" class="icono-especialidad">    
         <p>Salud reproductiva femenina, control prenatal y prevención de enfermedades.</p>
         </div>
     </section>
@@ -80,7 +84,7 @@
     <section class="acordeon-item">
         <button class="acordeon-boton">Ortopedia</button>
         <div class="acordeon-contenido">
-        <img src="/assets/image/ortopedia.png" alt="icono ortopedia" class="icono-especialidad">    
+        <img src="{% static '/assets/image/ortopedia.png' %}" alt="icono ortopedia" class="icono-especialidad">    
         <p>Tratamiento de lesiones y enfermedades del sistema musculoesquelético.</p>
         </div>
     </section>
@@ -88,7 +92,7 @@
     <section class="acordeon-item">
         <button class="acordeon-boton">Neurología</button>
         <div class="acordeon-contenido">
-        <img src="/assets/image/neurologia.png" alt="icono neurologia" class="icono-especialidad">    
+        <img src="{% static '/assets/image/neurologia.png' %}" alt="icono neurologia" class="icono-especialidad">    
         <p>Atención de trastornos del sistema nervioso central y periférico.</p>
         </div>
     </section>
@@ -96,7 +100,7 @@
     <section class="acordeon-item">
         <button class="acordeon-boton">Psiquiatría</button>
         <div class="acordeon-contenido">
-        <img src="/assets/image/psiquiatria.png" alt="icono psiquiatria" class="icono-especialidad">    
+        <img src="{% static '/assets/image/psiquiatria.png' %}" alt="icono psiquiatria" class="icono-especialidad">    
         <p>Diagnóstico y tratamiento de trastornos mentales y emocionales.</p>
         </div>
     </section>
@@ -104,7 +108,7 @@
     <section class="acordeon-item">
         <button class="acordeon-boton">Odontología</button>
         <div class="acordeon-contenido">
-        <img src="/assets/image/odontologia.png" alt="icono odontologia" class="icono-especialidad">    
+        <img src="{% static '/assets/image/odontologia.png' %}" alt="icono odontologia" class="icono-especialidad">    
         <p>Cuidado dental integral, prevención y estética oral.</p>
         </div>
     </section>
@@ -112,7 +116,7 @@
     <section class="acordeon-item">
         <button class="acordeon-boton">Oftalmología</button>
         <div class="acordeon-contenido">
-        <img src="/assets/image/ojo.png" alt="icono ojo" class="icono-especialidad">
+        <img src="{% static '/assets/image/ojo.png' %}" alt="icono ojo" class="icono-especialidad">
         <p>Diagnóstico y tratamiento de enfermedades de la visión contamos con los mejores medicos del pais aqui podras encontrar procedimientos de la mayor complejidad de la mano con la tecnologia mas avanzada del mundo de la medicina.</p>
         </div>
     </section>
@@ -120,7 +124,7 @@
     <section class="acordeon-item">
         <button class="acordeon-boton">Otorrinolaringología</button>
         <div class="acordeon-contenido">
-        <img src="/assets/image/otorrino.png" alt="icono Otorrinolaringología" class="icono-especialidad">    
+        <img src="{% static '/assets/image/otorrino.png' %}" alt="icono Otorrinolaringología" class="icono-especialidad">    
         <p>Atención de oído, nariz, garganta y vías respiratorias superiores.</p>
         </div>
     </section>
@@ -128,7 +132,7 @@
     <section class="acordeon-item">
         <button class="acordeon-boton">Nutrición</button>
         <div class="acordeon-contenido">
-        <img src="/assets/image/nutricion.png" alt="icono Nutrición" class="icono-especialidad">    
+        <img src="{% static '/assets/image/nutricion.png' %}" alt="icono Nutrición" class="icono-especialidad">    
         <p>Asesoría nutricional y planes de alimentación para una vida saludable.</p>
         </div>
     </section>
@@ -151,7 +155,7 @@
     <!-- Imagen acreditado izquierda y número derecha -->
     <div class="d-flex justify-content-between align-items-center flex-wrap">
         <div class="d-flex align-items-center mb-2">
-        <img src="/assets/image/saludacredit.png" alt="Acreditado" class="img-fluid" style="max-height:190px;">
+        <img src="{% static '/assets/image/saludacredit.png' %}" alt="Acreditado" class="img-fluid" style="max-height:190px;">
         </div>
         <div class="mb-2">
         <p class="mb-0">Numero de emergencia 24 Horas: +56 9 1234 5678</p>
@@ -165,5 +169,5 @@
 </body>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script src="/js/script.js"></script>
+    <script src={% static '/js/script.js' %}></script>
 </html>

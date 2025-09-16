@@ -42,3 +42,6 @@ def formulario_soporte(request):
 
 def preguntas_estatico(request):
     return render(request, 'paginasenlace/preguntas.html')
+
+def formulario_registro(request):
+    return render(request, 'paginasenlace/registro.html')
