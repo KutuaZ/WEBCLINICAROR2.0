@@ -17,10 +17,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from core.views import index_estatico, formulario_reserva
+from core.views import index_estatico, formulario_reserva, especialidades_estatico, nosotros_estatico, formulario_contacto, formulario_iniciarsesion, farmacia_estatico, formulario_reservalab, formulario_reservaonline, aranceles_estatico, seguros_estatico, formulario_pagocuentas, formulario_soporte, preguntas_estatico
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path("index/", index_estatico, name="index"),
     path("reserva/", formulario_reserva, name="reserva"),
-]
+    path("especialidades/", especialidades_estatico, name="especialidades"),
+    path("nosotros/", nosotros_estatico, name="nosotros"),
+    path("contacto/", formulario_contacto, name="contacto"),
+    path("iniciarsesion/", formulario_iniciarsesion, name="iniciarsesion"),
+    path("farmacia/", farmacia_estatico, name="farmacia"),
+    path("reservalab/", formulario_reservalab, name="reservalab"),
+    path("reservaonline/", formulario_reservaonline, name="reservaonline"),
+    path("aranceles/", aranceles_estatico, name="aranceles"),
+    path("seguros", seguros_estatico, name="seguros"),
+    path("pagocuentas", formulario_pagocuentas, name="pagocuentas"),
+    path("soporte/", formulario_soporte, name="soporte"),
+    path("preguntas/", preguntas_estatico, name="preguntas"),
+]                           
