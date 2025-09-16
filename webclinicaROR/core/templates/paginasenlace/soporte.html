@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROR-Med Clinic</title>
+    <link rel="icon" href="/assets/icon/favicon.png" type="favicon"></a>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <!-- barra de navegacion-->
+    <nav class="navbar navbar-expand-lg bg-light fixed-top">
+        <div class="container">
+            <a href="/index.html">
+                <img src="/assets/icon/clinic.png" alt="logo clinica" class="logo" id="logo"></a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/reserva.html">Reserva hora</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/especialidades.html">Especialidades</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/nosotros.html">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contacto.html">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/iniciarsesion.html">Iniciar Sesion</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- fin barra de navegacion-->
+
+
+    <!-- Sección Soporte y Sedes -->
+    <section class="soporte-section py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="titulos3">Soporte y Contacto</h2>
+                <p class="lead text-muted">Contáctanos en cualquiera de nuestras sedes. Estamos disponibles para
+                    ayudarte.</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Card Sede Antofagasta -->
+                <div class="col-md-6 col-lg-3">
+                    <article class="soporte-card h-100">
+                        <div class="soporte-media" style="background-image:url('/assets/image/intalacion3.png')"></div>
+                        <div class="soporte-body p-3 d-flex flex-column">
+                            <h5 class="mb-2">Antofagasta</h5>
+                            <p class="text-muted mb-3 small">Av. Azapa 6001, Antofagasta</p>
+                            <div class="mt-auto d-flex flex-column gap-2">
+                                <a href="tel:+56912345678" class="btn btn-success btn-sm w-100">📞 Llamar</a>
+                                <a href="https://wa.me/56912345678" target="_blank"
+                                    class="btn btn-outline-success btn-sm w-100">💬 WhatsApp</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Card Sede Santiago -->
+                <div class="col-md-6 col-lg-3">
+                    <article class="soporte-card h-100">
+                        <div class="soporte-media" style="background-image:url('/assets/image/intalacion1.png')"></div>
+                        <div class="soporte-body p-3 d-flex flex-column">
+                            <h5 class="mb-2">Santiago</h5>
+                            <p class="text-muted mb-3 small">Av. sta Maria 1810 providencia, Santiago</p>
+                            <div class="mt-auto d-flex flex-column gap-2">
+                                <a href="tel:+56987654321" class="btn btn-success btn-sm w-100">📞 Llamar</a>
+                                <a href="https://wa.me/56987654368" target="_blank"
+                                    class="btn btn-outline-success btn-sm w-100">💬 WhatsApp</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Card Sede Viña del Mar -->
+                <div class="col-md-6 col-lg-3">
+                    <article class="soporte-card h-100">
+                        <div class="soporte-media" style="background-image:url('/assets/image/intalacion2.png')"></div>
+                        <div class="soporte-body p-3 d-flex flex-column">
+                            <h5 class="mb-2">Viña del Mar</h5>
+                            <p class="text-muted mb-3 small">C. Limache 1741, Viña del Mar</p>
+                            <div class="mt-auto d-flex flex-column gap-2">
+                                <a href="tel:+56911223344" class="btn btn-success btn-sm w-100">📞 Llamar</a>
+                                <a href="https://wa.me/56911223344" target="_blank"
+                                    class="btn btn-outline-success btn-sm w-100">💬 WhatsApp</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Card Sede Puerto Varas -->
+                <div class="col-md-6 col-lg-3">
+                    <article class="soporte-card h-100">
+                        <div class="soporte-media" style="background-image:url('/assets/image/intalacion4.png')"></div>
+                        <div class="soporte-body p-3 d-flex flex-column">
+                            <h5 class="mb-2">Puerto Varas</h5>
+                            <p class="text-muted mb-3 small">Av. Lagos 8765, Puerto Varas</p>
+                            <div class="mt-auto d-flex flex-column gap-2">
+                                <a href="tel:+56955667788" class="btn btn-success btn-sm w-100">📞 Llamar</a>
+                                <a href="https://wa.me/56955667788" target="_blank"
+                                    class="btn btn-outline-success btn-sm w-100">💬 WhatsApp</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- footer -->
+    <footer class="footer-custom text-white py-4">
+        <div class="container">
+
+            <!-- Derechos reservados -->
+            <p class="text-center mb-4">&copy; 2024 ROR-Med Clinic. Todos los derechos reservados.</p>
+
+            <!-- Links -->
+            <p class="text-center mb-4">
+                <a href="#" class="text-white me-3">Política de Privacidad</a>
+                <a href="#" class="text-white">Términos de Servicio</a>
+            </p>
+
+            <!-- Imagen acreditado izquierda y número derecha -->
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div class="d-flex align-items-center mb-2">
+                    <img src="/assets/image/saludacredit.png" alt="Acreditado" class="img-fluid"
+                        style="max-height:190px;">
+                </div>
+                <div class="mb-2">
+                    <p class="mb-0">Numero de emergencia 24 Horas: +56 9 1234 5678</p>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+    <!-- fin footer -->
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+
+</html>

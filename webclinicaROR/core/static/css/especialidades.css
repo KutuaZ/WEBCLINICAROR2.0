@@ -1,0 +1,122 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f6f8;
+    padding-top: 120px;
+}
+
+header {
+    background: #0077b6;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
+
+h1 {
+    margin: 0;
+}
+
+.acordeon {
+    max-width: 700px;
+    margin: 2rem auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.acordeon-item {
+    border-bottom: 1px solid #ddd;
+}
+
+.acordeon-boton {
+    width: 100%;
+    padding: 1rem;
+    text-align: left;
+    font-size: 1.1rem;
+    border: none;
+    background: #7cdfbe;
+    cursor: pointer;
+    outline: none;
+    transition: background 1s;
+    color: rgb(255, 243, 243);
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.acordeon-boton:hover {
+    background: #2b885a;
+}
+
+.acordeon-contenido {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 1rem;
+    background: linear-gradient(90deg, #dae9ff, #d7e6dabd);#f1f1f1;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    display: flex;          
+    align-items: flex-start; 
+    gap: 1rem;               /* espacio entre imagen y texto */
+}
+
+.acordeon-contenido p {
+    margin: 1rem 0;
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
+    margin: 20px 0;
+    padding: 20px 0;
+}
+
+.acordeon-item.activo .acordeon-contenido {
+    max-height: 200px;
+    padding: 0 1rem;
+}
+
+/* flechas */
+.acordeon {
+    max-width: 800px;
+    margin: 50px auto;
+}
+
+/* Flecha */
+.acordeon-boton::after {
+  content: '▶'; /* Flecha cerrada */
+    font-size: 16px;
+    transition: transform 0.3s;
+}
+
+.acordeon-boton.active::after {
+  content: '▼'; /* Flecha abierta */
+}
+
+
+/* imagenes */
+
+.icono-especialidad {
+    height: auto;  
+    display: block;
+    margin-bottom: 0.5rem; /* Espacio debajo de la imagen */
+    margin-top: 1rem; /* Espacio arriba de la imagen */
+}
+
+.acordeon-contenido img {
+    width: 350px; /* ajusta según necesites */
+    height: auto;
+}
+
+/* ajustes para vista en celular */
+@media (max-width: 576px) {
+    .acordeon-contenido {
+        flex-direction: column;
+        text-align: center; /* centra el texto */
+    }
+    .acordeon-contenido img {
+        margin-bottom: 0.5rem; 
+        margin-top: 1rem; 
+    }
+}

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROR-Med Clinic</title>
+    <link rel="icon" href="/assets/icon/favicon.png" type="favicon"></a>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/Farmacia.css">
+</head>
+<body>
+    <!-- barra de navegacion-->
+<nav class="navbar navbar-expand-lg bg-light fixed-top">
+    <div class="container">
+    <a href="index.html">
+    <img src="/assets/icon/clinic.png" alt="logo clinica" class="logo" id="logo"></a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="reserva.html">Reserva hora</a></li>
+        <li class="nav-item"><a class="nav-link" href="especialidades.html">Especialidades</a></li>
+        <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
+        <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+        <li class="nav-item"><a class="nav-link" href="iniciarsesion.html">Iniciar Sesion</a></li>
+        </ul>
+    </div>
+    </div>
+</nav>
+    <!-- fin barra de navegacion-->
+
+    <!-- Farmacia online-->
+<!-- barra secundaria farmacia online -->
+<nav class="navbar navbar-expand-lg navbar-secondary bg-white shadow-sm mt-5">
+    <div class="container">
+    <!-- Buscador en el centro -->
+    <form class="d-flex mx-auto w-50" role="search">
+        <input class="form-control me-2 rounded-pill" type="search" placeholder="Buscar productos..." aria-label="Search">
+        <button class="btn btn-success rounded-pill px-4" type="submit">Buscar</button>
+    </form>
+
+    <!-- Icono carrito a la derecha -->
+    <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+        <a class="nav-link position-relative" data-bs-toggle="offcanvas" href="#carritoPanel">
+            <img src="/assets/icon/carrito.png" alt="Carrito">
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            0
+            </span>
+        </a>
+        </li>
+    </ul>
+    </div>
+</nav>
+
+    <!-- Offcanvas Carrito -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="carritoPanel">
+    <div class="offcanvas-header">
+    <h5 class="offcanvas-title">🛒 Tu Carrito</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column">
+    <ul id="lista-carrito" class="list-group flex-grow-1"></ul>
+    <hr>
+    <p class="fw-bold">Total: <span id="total-carrito">$0</span></p>
+    <button class="btn btn-success w-100 mt-2">Comprar</button>
+    </div>
+</div>
+    <!-- Fin barra secundaria farmacia online -->
+
+
+    <!-- iteam seccion-->
+
+<section class="productos-section py-5 bg-light">
+    <div class="container">
+    <h2 class="text-center mb-5 titulos3">Nuestros Productos</h2>
+    <div class="row g-4">
+
+        <!-- Producto 1 -->
+        <div class="col-md-4 producto" data-nombre="Enjuague Bucal Colgate Plax Ice Infinity">
+        <div class="producto-card shadow-sm rounded-4">
+            <a href="producto1.html">
+            <img src="/assets/image-produc/producto1.webp" alt="Producto 1" class="producto-img rounded-top-4">
+            </a>
+            <div class="producto-info p-3">
+            <h4 class="producto-nombre"> Enjuague Bucal Colgate Plax Ice Infinity 180 ml</h4>
+            <p class="producto-desc"></p>
+            <p class="producto-precio">$10.990</p>
+            <button class="btn btn-success btn-add">Agregar al carrito</button>
+            </div>
+        </div>
+        </div>
+
+        <!-- Producto 2 -->
+        <div class="col-md-4 producto" data-nombre="Effaclar Gel +M Limpiador Purificante">
+        <div class="producto-card shadow-sm rounded-4">
+            <a href="producto2.html">
+            <img src="/assets/image-produc/producto2.webp" alt="Producto 2" class="producto-img rounded-top-4">
+            </a>
+            <div class="producto-info p-3">
+            <h4 class="producto-nombre">Effaclar Gel +M Limpiador Purificante 400ml</h4>
+            <p class="producto-desc"></p>
+            <p class="producto-precio">$14.990</p>
+            <button class="btn btn-success btn-add">Agregar al carrito</button>
+            </div>
+        </div>
+        </div>
+
+        <!-- Producto 3 -->
+        <div class="col-md-4 producto" data-nombre="Kitadol (B) Paracetamol 500mg 24 Comprimidos">
+        <div class="producto-card shadow-sm rounded-4">
+            <a href="producto3.html">
+            <img src="/assets/image-produc/producto3.webp" alt="Producto 3" class="producto-img rounded-top-4">
+            </a>
+            <div class="producto-info p-3">
+            <h4 class="producto-nombre">Kitadol (B) Paracetamol 500mg 24 Comprimidos</h4>
+            <p class="producto-desc"></p>
+            <p class="producto-precio">$990</p>
+            <button class="btn btn-success btn-add">Agregar al carrito</button>
+            </div>
+        </div>
+        </div>
+
+                <!-- Producto 4 -->
+        <div class="col-md-4 producto" data-nombre="Aspirina 500mg 40 Comprimidos">
+        <div class="producto-card shadow-sm rounded-4">
+            <a href="producto1.html">
+            <img src="/assets/image-produc/producto4.webp" alt="Producto 1" class="producto-img rounded-top-4">
+            </a>
+            <div class="producto-info p-3">
+            <h4 class="producto-nombre">Aspirina 500mg 40 Comprimidos</h4>
+            <p class="producto-desc"></p>
+            <p class="producto-precio">$3.990</p>
+            <button class="btn btn-success btn-add">Agregar al carrito</button>
+            </div>
+        </div>
+        </div>
+
+        <!-- Producto 5 -->
+        <div class="col-md-4 producto" data-nombre="Broncatox (B) Levodropropizina 60mg/10ml Jarabe">
+        <div class="producto-card shadow-sm rounded-4">
+            <a href="producto2.html">
+            <img src="/assets/image-produc/producto5.webp" alt="Producto 2" class="producto-img rounded-top-4">
+            </a>
+            <div class="producto-info p-3">
+            <h4 class="producto-nombre">Broncatox (B) Levodropropizina 60mg/10ml Jarabe 120ml</h4>
+            <p class="producto-desc"></p>
+            <p class="producto-precio">$7.440</p>
+            <button class="btn btn-success btn-add">Agregar al carrito</button>
+            </div>
+        </div>
+        </div>
+
+        <!-- Producto 6 -->
+        <div class="col-md-4 producto" data-nombre="Trio-Val DN Dia y Noche 20 Comprimidos">
+        <div class="producto-card shadow-sm rounded-4">
+            <a href="producto3.html">
+            <img src="/assets/image-produc/producto6.webp" alt="Producto 3" class="producto-img rounded-top-4">
+            </a>
+            <div class="producto-info p-3">
+            <h4 class="producto-nombre">Trio-Val DN Dia y Noche 20 Comprimidos</h4>
+            <p class="producto-desc"></p>
+            <p class="producto-precio">$15.990</p>
+            <button class="btn btn-success btn-add">Agregar al carrito</button>
+            </div>
+        </div>
+        </div>
+
+                <!-- Producto 7 -->
+        <div class="col-md-4 producto" data-nombre="XRAY Magnesio 30 Comprimidos">
+        <div class="producto-card shadow-sm rounded-4">
+            <a href="producto1.html">
+            <img src="/assets/image-produc/producto7.webp" alt="Producto 1" class="producto-img rounded-top-4">
+            </a>
+            <div class="producto-info p-3">
+            <h4 class="producto-nombre">XRAY Magnesio 30 Comprimidos</h4>
+            <p class="producto-desc"></p>
+            <p class="producto-precio">$26.990</p>
+            <button class="btn btn-success btn-add">Agregar al carrito</button>
+            </div>
+        </div>
+        </div>
+
+        <!-- Producto 8 -->
+        <div class="col-md-4 producto" data-nombre="Cloxacilina 500mg 12 Capsulas">
+        <div class="producto-card shadow-sm rounded-4">
+            <a href="producto2.html">
+            <img src="/assets/image-produc/producto8.webp" alt="Producto 2" class="producto-img rounded-top-4">
+            </a>
+            <div class="producto-info p-3">
+            <h4 class="producto-nombre">Cloxacilina 500mg 12 Capsulas</h4>
+            <p class="producto-desc"></p>
+            <p class="producto-precio">$3.999</p>
+            <button class="btn btn-success btn-add">Agregar al carrito</button>
+            </div>
+        </div>
+        </div>
+
+        <!-- Producto 9 -->
+        <div class="col-md-4 producto" data-nombre="Thealoz Duo Lágrimas Artificiales Solución Oftálmica 10ml">
+        <div class="producto-card shadow-sm rounded-4">
+            <a href="producto3.html">
+            <img src="/assets/image-produc/producto9.webp" alt="Producto 3" class="producto-img rounded-top-4">
+            </a>
+            <div class="producto-info p-3">
+            <h4 class="producto-nombre">Thealoz Duo Lágrimas Artificiales Solución Oftálmica 10ml</h4>
+            <p class="producto-desc"></p>
+            <p class="producto-precio">$29.590</p>
+            <button class="btn btn-success btn-add">Agregar al carrito</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+
+
+
+
+    <!-- footer -->
+<footer class="footer-custom text-white py-4">
+    <div class="container">
+
+    <!-- Derechos reservados -->
+    <p class="text-center mb-4">&copy; 2024 ROR-Med Clinic. Todos los derechos reservados.</p>
+
+    <!-- Links -->
+    <p class="text-center mb-4">
+        <a href="#" class="text-white me-3">Política de Privacidad</a>
+        <a href="#" class="text-white">Términos de Servicio</a>
+    </p>
+
+    <!-- Imagen acreditado izquierda y número derecha -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <div class="d-flex align-items-center mb-2">
+        <img src="/assets/image/saludacredit.png" alt="Acreditado" class="img-fluid" style="max-height:190px;">
+        </div>
+        <div class="mb-2">
+        <p class="mb-0">Numero de emergencia 24 Horas: +56 9 1234 5678</p>
+        </div>
+    </div>
+
+</div>
+</footer>
+    <!-- fin footer -->
+</body>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="/js/farmacia.js"></script>
+
+</html>

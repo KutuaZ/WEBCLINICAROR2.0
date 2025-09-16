@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROR-Med Clinic</title>
+    <link rel="icon" href="/assets/icon/favicon.png" type="favicon"></a>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <!-- barra de navegacion-->
+<nav class="navbar navbar-expand-lg bg-light fixed-top">
+    <div class="container">
+    <a href="/index.html">
+    <img src="/assets/icon/clinic.png" alt="logo clinica" class="logo" id="logo"></a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/index.html">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="/reserva.html">Reserva hora</a></li>
+        <li class="nav-item"><a class="nav-link" href="/especialidades.html">Especialidades</a></li>
+        <li class="nav-item"><a class="nav-link" href="/nosotros.html">Nosotros</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contacto.html">Contacto</a></li>
+        <li class="nav-item"><a class="nav-link" href="/iniciarsesion.html">Iniciar Sesion</a></li>
+        </ul>
+    </div>
+    </div>
+</nav>
+    <!-- fin barra de navegacion-->
+
+    <!-- reserva medicina telematica-->
+<section class="telemedicina-section py-5 bg-light">
+    <div class="container">
+    <h2 class="text-center mb-5 fw-bold titulos3">Reserva de Medicina Telemática</h2>
+
+    <form id="telemedForm" class="needs-validation shadow-lg p-4 rounded-4 bg-white" novalidate>
+        
+        <div class="mb-3">
+        <label for="telemed-name" class="form-label fw-semibold">Nombre Completo</label>
+        <input type="text" class="form-control form-control-lg" id="telemed-name" name="name" placeholder="Juan Pérez" required>
+        <div class="invalid-feedback">Por favor, ingresa tu nombre completo.</div>
+        </div>
+
+        <div class="mb-3">
+        <label for="telemed-email" class="form-label fw-semibold">Correo Electrónico</label>
+        <input type="email" class="form-control form-control-lg" id="telemed-email" name="email" placeholder="correo@ejemplo.com" required>
+        <div class="invalid-feedback">Por favor, ingresa un correo válido.</div>
+        </div>
+
+        <div class="mb-3">
+        <label for="telemed-date" class="form-label fw-semibold">Fecha de Reserva</label>
+        <input type="date" class="form-control form-control-lg" id="telemed-date" name="date" required>
+        <div class="invalid-feedback">Por favor, selecciona una fecha.</div>
+        </div>
+
+        <div class="mb-3">
+        <label for="telemed-time" class="form-label fw-semibold">Hora</label>
+        <input type="time" class="form-control form-control-lg" id="telemed-time" name="time" required>
+        <div class="invalid-feedback">Por favor, selecciona una hora.</div>
+        </div>
+
+        <div class="mb-3">
+        <label for="telemed-message" class="form-label fw-semibold">Motivo de Consulta</label>
+        <textarea class="form-control form-control-lg" id="telemed-message" name="message" rows="4" placeholder="Describe brevemente tu motivo..." required></textarea>
+        <div class="invalid-feedback">Por favor, ingresa tu mensaje (máximo 50 palabras).</div>
+        <div id="telemedWordCount" class="form-text text-end text-muted">0 / 50 palabras</div>
+        </div>
+
+        <div class="d-grid">
+        <button type="submit" class="btn btn-warning btn-lg fw-bold">Reservar</button>
+        </div>
+
+    </form>
+    </div>
+</section>
+
+        <!-- footer -->
+<footer class="footer-custom text-white py-4">
+    <div class="container">
+
+    <!-- Derechos reservados -->
+    <p class="text-center mb-4">&copy; 2024 ROR-Med Clinic. Todos los derechos reservados.</p>
+
+    <!-- Links -->
+    <p class="text-center mb-4">
+        <a href="#" class="text-white me-3">Política de Privacidad</a>
+        <a href="#" class="text-white">Términos de Servicio</a>
+    </p>
+
+    <!-- Imagen acreditado izquierda y número derecha -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <div class="d-flex align-items-center mb-2">
+        <img src="/assets/image/saludacredit.png" alt="Acreditado" class="img-fluid" style="max-height:190px;">
+        </div>
+        <div class="mb-2">
+        <p class="mb-0">Numero de emergencia 24 Horas: +56 9 1234 5678</p>
+        </div>
+    </div>
+
+    </div>
+</footer>
+    <!-- fin footer -->
+</body>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="/js/login.js"></script>
+</html>

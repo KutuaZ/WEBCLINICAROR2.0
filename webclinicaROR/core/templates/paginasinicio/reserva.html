@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROR-Med Clinic - Reserva</title>
+    <link rel="icon" href="/assets/icon/favicon.png" type="favicon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/reserva-styles.css">
+</head>
+<body>
+
+<nav class="reserva-navbar navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a href="index.html">
+            <img src="/assets/icon/clinic.png" alt="logo clinica" class="reserva-logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#reservaNavbarNav"
+        aria-controls="reservaNavbarNav" aria-expanded="false" aria-label="Toggle navigation"> 
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="reservaNavbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="reserva.html">Reserva hora</a></li>
+                <li class="nav-item"><a class="nav-link" href="especialidades.html">Especialidades</a></li>
+                <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+                <li class="nav-item"><a class="nav-link" href="iniciarsesion.html">Iniciar Sesión</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container reserva-form-container">
+    <h2 class="text-center reserva-titulo">Reserva tu hora</h2>
+    <form id="reservaForm" novalidate>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="reserva-nombre" class="form-label">Nombre Completo</label>
+                <input type="text" class="form-control reserva-input" id="reserva-nombre" name="nombre" placeholder="Juan Pérez" required>
+            </div>
+            <div class="col-md-6">
+                <label for="reserva-email" class="form-label">Correo Electrónico</label>
+                <input type="email" class="form-control reserva-input" id="reserva-email" name="email" placeholder="correo@ejemplo.com" required>
+            </div>
+            <div class="col-md-6">
+                <label for="reserva-telefono" class="form-label">Teléfono</label>
+                <input type="tel" class="form-control reserva-input" id="reserva-telefono" name="telefono" placeholder="+56 9 1234 5678" required>
+            </div>
+            <div class="col-md-6">
+                <label for="reserva-rut" class="form-label">RUT</label>
+                <input type="text" class="form-control reserva-input" id="reserva-rut" name="rut" placeholder="X.XXX.XXX-X" required>
+            </div>
+            <div class="col-md-6">
+                <label for="reserva-fecha" class="form-label">Fecha de la Cita</label>
+                <input type="date" class="form-control reserva-input" id="reserva-fecha" name="fecha" required>
+            </div>
+            <div class="col-md-6">
+                <label for="reserva-tiempo" class="form-label">Hora de la Cita</label>
+                <select class="form-select reserva-select" id="reserva-tiempo" name="tiempo" required>
+                    <option value="" disabled selected>Seleccione hora</option>
+                </select>
+            </div>
+            <div class="col-12">
+                <label for="reserva-specialty" class="form-label">Especialidad</label>
+                <select class="form-select reserva-select" id="reserva-specialty" name="specialty" required>
+                    <option value="" disabled selected>Seleccione una especialidad</option>
+                    <option value="general">Medicina General</option>
+                    <option value="pediatrics">Pediatría</option>
+                    <option value="dermatology">Dermatología</option>
+                    <option value="cardiology">Cardiología</option>
+                    <option value="gynecology">Ginecología</option>
+                    <option value="orthopedics">Ortopedia</option>
+                    <option value="neurology">Neurología</option>
+                    <option value="psychiatry">Psiquiatría</option>
+                    <option value="dentistry">Odontología</option>
+                    <option value="ophthalmology">Oftalmología</option>
+                    <option value="ent">Otorrinolaringología</option>
+                    <option value="nutrition">Nutrición</option>
+                </select>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <button type="submit" class="reserva-btn btn btn-lg">Reservar Hora</button>
+        </div>
+    </form>
+</div>
+    <!-- footer -->
+<footer class="footer-custom text-white py-4">
+<div class="container">
+
+    <!-- Derechos reservados -->
+    <p class="text-center mb-4">&copy; 2024 ROR-Med Clinic. Todos los derechos reservados.</p>
+
+    <!-- Links -->
+    <p class="text-center mb-4">
+    <a href="#" class="text-white me-3">Política de Privacidad</a>
+    <a href="#" class="text-white">Términos de Servicio</a>
+    </p>
+
+    <!-- Imagen acreditado izquierda y número derecha -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+    <div class="d-flex align-items-center mb-2">
+        <img src="/assets/image/saludacredit.png" alt="Acreditado" class="img-fluid" style="max-height:190px;">
+    </div>
+    <div class="mb-2">
+        <p class="mb-0">Numero de emergencia 24 Horas: +56 9 1234 5678</p>
+    </div>
+</div>
+
+</div>
+</footer>
+    <!-- fin footer -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/script.js"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,116 @@
+/* LOGO Y NAVBAR */
+.reserva-logo { 
+    height: 100px; 
+    width: auto; 
+}
+
+.reserva-navbar { 
+    background: linear-gradient(90deg, #dae9ff, #d7e6dabd); 
+}
+
+.reserva-navbar .nav-item .nav-link { 
+    margin: 0 20px; 
+    font-weight: bold; 
+    font-size: 18px; 
+    color: #000; 
+}
+
+.reserva-navbar .nav-link:hover { 
+    color: #4d9170 !important; 
+}
+
+body { 
+    padding-top: 120px; /* ajusta según la altura de barra */
+}
+
+/* FORMULARIO RESERVA */
+.reserva-form-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background: linear-gradient(90deg, #dae9ff, #d7e6dabd);
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.reserva-titulo { 
+    color: #449278;
+    font-weight: bold;
+    font-size: 36px;
+    margin-bottom: 30px;
+}
+
+.reserva-input, .reserva-select {
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.reserva-input:focus, .reserva-select:focus {
+    border-color: #4d8d6e;
+    box-shadow: 0 0 5px rgba(77,145,112,0.5);
+}
+
+.is-invalid { 
+    border-color: #dc3545 !important; 
+}
+
+.reserva-text-danger { 
+    font-size: 0.85em; 
+    margin-top: 5px; 
+}
+
+.reserva-btn {
+    background-color: #70c49b;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.reserva-btn:hover { 
+    background-color: #367c5a; 
+}
+
+/* ESTILO RESPONSIVO */
+@media (max-width: 768px) {
+    .reserva-form-container {
+        padding: 20px;
+        margin: 20px auto;
+    }
+}
+
+
+
+.footer-custom {
+    background: #4d9170;
+    color: white;
+    padding: 40px 20px;
+    border-top: 6px solid #367c5a;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    line-height: 1.5;
+}
+
+
+.footer-custom a {
+    margin: 0% 10px;
+    color: white;
+    text-decoration: none;
+}
+
+.footer-custom a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+    .footer-custom .d-flex {
+    flex-direction: column;
+    text-align: center;
+}
+    .footer-custom .d-flex div {
+    margin-bottom: 0.5rem;
+    }
+}
