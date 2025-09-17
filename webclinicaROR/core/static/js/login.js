@@ -1,39 +1,53 @@
-document.addEventListener("DOMContentLoaded", function() {
+
+document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("loginForm");
+    const email = document.getElementById("login-email");
+    const password = document.getElementById("login-password");
 
-    form.addEventListener("submit", function(e) {
-        e.preventDefault();
-
-        const email = document.getElementById("login-email");
-        const password = document.getElementById("login-password");
+    form.addEventListener("submit", function (e) {
         let valid = true;
 
-        // Validar email
+        // Validar email con regex simple y que contenga '@'
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!email.value.trim() || !emailPattern.test(email.value.trim())) {
+        const emailFeedback = email.nextElementSibling;
+        if (!email.value.includes("@")) {
             email.classList.add("is-invalid");
             email.classList.remove("is-valid");
+            if (emailFeedback) emailFeedback.textContent = "El correo debe contener '@'.";
+            valid = false;
+        } else if (!emailPattern.test(email.value.trim())) {
+            email.classList.add("is-invalid");
+            email.classList.remove("is-valid");
+            if (emailFeedback) emailFeedback.textContent = "Por favor, ingresa un correo válido.";
             valid = false;
         } else {
             email.classList.remove("is-invalid");
             email.classList.add("is-valid");
+            if (emailFeedback) emailFeedback.textContent = "";
         }
 
-        // Validar contraseña mínimo 6 caracteres
-        if (!password.value.trim() || password.value.trim().length < 6) {
+        // Validar contraseña (mínimo 6 caracteres y al menos una letra y un número)
+        const passwordFeedback = password.nextElementSibling;
+        const passwordValue = password.value.trim();
+        const passwordSecure = passwordValue.length >= 6 && /[A-Za-z]/.test(passwordValue) && /\d/.test(passwordValue);
+        if (!passwordSecure) {
             password.classList.add("is-invalid");
             password.classList.remove("is-valid");
+            if (passwordFeedback) passwordFeedback.textContent = "La contraseña debe tener al menos 6 caracteres, una letra y un número.";
             valid = false;
         } else {
             password.classList.remove("is-invalid");
             password.classList.add("is-valid");
+            if (passwordFeedback) passwordFeedback.textContent = "";
         }
 
-        if (valid) {
-            alert("Formulario válido\n");
+        if (!valid) {
+            e.preventDefault();
         }
     });
 });
+
+
 
 
 /*formulario validacion telemedicina*/
@@ -172,4 +186,4 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// fin de registro
+// fin de registro 
