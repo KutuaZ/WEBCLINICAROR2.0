@@ -28,7 +28,6 @@ urlpatterns = [
     # Páginas estáticas
     path('', views.index_estatico, name='home'),
     path('index/', views.index_estatico, name='index'),
-    path('reserva/', views.formulario_reserva, name='reserva'),
     path('especialidades/', views.especialidades_estatico, name='especialidades'),
     path('nosotros/', views.nosotros_estatico, name='nosotros'),
     path('contacto/', views.formulario_contacto, name='contacto'),
@@ -40,6 +39,9 @@ urlpatterns = [
     path('pagocuentas/', views.formulario_pagocuentas, name='pagocuentas'),
     path('soporte/', views.formulario_soporte, name='soporte'),
     path('preguntas/', views.preguntas_estatico, name='preguntas'),
+
+    path('reserva/', views.vista_reserva, name='reserva'),
+
 
     # Usuarios: login, logout, registro
     path('iniciarsesion/', views.iniciar_sesion, name='iniciarsesion'),

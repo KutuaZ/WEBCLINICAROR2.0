@@ -34,21 +34,32 @@
           <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
 
           {% if user.is_authenticated %}
-              {% if user|es_paciente %}
-                  <li class="nav-item"><a class="nav-link" href="{% url 'reservaonline' %}">Reserva Online</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{% url 'reservalab' %}">Reserva Laboratorio</a></li>
-              {% elif user|es_medico %}
-                  <li class="nav-item"><a class="nav-link" href="{% url 'agenda' %}">Agenda Consultas</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{% url 'soporte' %}">Soporte Médico</a></li>
-              {% elif user|es_adminweb %}
-                  <li class="nav-item"><a class="nav-link" href="{% url 'farmacia' %}">Farmacia Online</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{% url 'pagocuentas' %}">Pago de Cuentas</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{% url 'aranceles' %}">Aranceles</a></li>
-              {% endif %}
-              <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a></li>
-          {% else %}
-              <li class="nav-item"><a class="nav-link" href="{% url 'iniciarsesion' %}">Iniciar sesión</a></li>
-          {% endif %}
+    {% if user|es_paciente %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'reservaonline' %}">Reserva Online</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'reservalab' %}">Reserva Laboratorio</a></li>
+    {% elif user|es_medico %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarMedico" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Opciones Médico
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarMedico">
+                <li><a class="dropdown-item" href="{% url 'agenda' %}">Agenda Consultas</a></li>
+                <li><a class="dropdown-item" href="{% url 'soporte' %}">Soporte Médico</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+            </ul>
+        </li>
+    {% elif user|es_adminweb %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'farmacia' %}">Farmacia Online</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'pagocuentas' %}">Pago de Cuentas</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'aranceles' %}">Aranceles</a></li>
+    {% endif %}
+    {% if not user|es_medico %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a></li>
+    {% endif %}
+{% else %}
+    <li class="nav-item"><a class="nav-link" href="{% url 'iniciarsesion' %}">Iniciar sesión</a></li>
+{% endif %}
         </ul>
       </div>
     </div>
