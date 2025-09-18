@@ -57,3 +57,12 @@ class Reserva(models.Model):
 
     def __str__(self):
         return f"Reserva de {self.nombre_paciente} con Dr. {self.medico.user.get_full_name()} el {self.hora_disponible.fecha}"
+    
+class Paciente(models.Model):
+    
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='paciente')
+    telefono = models.CharField(max_length=20, blank=True, null=True)
+    # Aquí podrías agregar más campos en el futuro, como RUT, fecha de nacimiento, etc.
+
+    def __str__(self):
+        return self.user.get_full_name()
