@@ -50,7 +50,7 @@ class Reserva(models.Model):
     # Relación con el médico y la hora
     medico = models.ForeignKey(Medico, on_delete=models.CASCADE)
     
-    # Usamos OneToOneField para asegurar que una hora solo se pueda reservar una vez.
+    # asegurar que una hora solo se pueda reservar una vez.
     hora_disponible = models.OneToOneField(HoraDisponible, on_delete=models.CASCADE)
     
     fecha_creacion = models.DateTimeField(default=timezone.now)
@@ -62,7 +62,18 @@ class Paciente(models.Model):
     
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='paciente')
     telefono = models.CharField(max_length=20, blank=True, null=True)
-    # Aquí podrías agregar más campos en el futuro, como RUT, fecha de nacimiento, etc.
+    # Aquí agregar más campos en el futuro, como RUT, fecha de nacimiento, etc.
 
     def __str__(self):
         return self.user.get_full_name()
+    
+
+class HistorialMedico(models.Model):
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    medico = models.ForeignKey(Medico, on_delete=models.CASCADE)
+    reserva = models.ForeignKey(Reserva, on_delete=models.CASCADE)
+    descripcion = models.TextField("Detalle de la atención")
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Historial de {self.paciente} - {self.fecha.date()}"

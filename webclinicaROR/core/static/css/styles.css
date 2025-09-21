@@ -846,3 +846,23 @@ body {
   font-size: 0.95rem;
   line-height: 1.5;
 }
+
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+.main-content {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+footer.footer-custom {
+    margin-top: auto;
+}

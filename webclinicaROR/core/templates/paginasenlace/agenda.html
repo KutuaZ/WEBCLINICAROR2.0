@@ -1,38 +1,40 @@
+{% extends "paginasinicio/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Agenda del Médico</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-<div class="container mt-5">
-    <h1 class="text-center">Mis Consultas Reservadas</h1>
+
+{% block title %}Agenda del Médico{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="container mt-5">
+    <h5 class="text-center titulos">Mis Consultas Reservadas</h5>
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Paciente</th>
                 <th>Fecha</th>
-                <th>Hora</th>
-                <th>Motivo</th>
+                <th>Hora inicio</th>
+                <th>Hora fin</th>
+                <th>Sede</th>
+                <th>Historial</th>
             </tr>
         </thead>
         <tbody>
             {% for reserva in reservas %}
             <tr>
-                <td>{{ reserva.paciente.get_full_name }}</td>
-                <td>{{ reserva.hora.fecha }}</td>
-                <td>{{ reserva.hora.hora }}</td>
-                <td>{{ reserva.motivo }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4" class="text-center">No hay reservas.</td>
+                <td>{{ reserva.nombre_paciente }}</td>
+                <td>{{ reserva.hora_disponible.fecha }}</td>
+                <td>{{ reserva.hora_disponible.hora_inicio }}</td>
+                <td>{{ reserva.hora_disponible.hora_fin }}</td>
+                <td>{{ reserva.medico.sede.nombre }}</td>
+                <td class="text-center">
+                    <a href="{% url 'historial_paciente_rut' reserva.rut_paciente %}" title="Ver historial">
+                        <img src="{% static 'assets/icon/historial.png' %}" alt="Ver historial" style="width:28px; height:28px;">
+                    </a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
-</body>
-</html>
+</div>
+{% endblock %}

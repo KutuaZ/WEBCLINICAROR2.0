@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from .models import Especialidad, Sede, Medico, HoraDisponible, Reserva
 from datetime import datetime, timedelta
 from django.utils import timezone
 from .forms import ReservaForm
+
+
 # Páginas estáticas
 def index_estatico(request):
     return render(request, 'paginasinicio/index.html')
@@ -49,6 +51,37 @@ def preguntas_estatico(request):
 
 def agenda_medico(request):
     return render(request, 'paginasenlace/agenda.html')
+
+def historial_paciente(request, paciente_id):
+    from .models import HistorialMedico, Paciente  # Importar aquí para evitar ciclos
+
+    paciente = get_object_or_404(Paciente, id=paciente_id)
+    historiales = HistorialMedico.objects.filter(paciente=paciente).select_related('medico', 'reserva')
+
+    return render(request, 'paginasenlace/historial_paciente.html', {'paciente': paciente, 'historiales': historiales})
+
+@login_required
+def agregar_historial(request, reserva_id):
+    from .models import HistorialMedico, Reserva  # Importar aquí para evitar ciclos
+
+    reserva = get_object_or_404(Reserva, id=reserva_id)
+
+    if request.method == 'POST':
+        descripcion = request.POST.get('descripcion')
+        if descripcion:
+            HistorialMedico.objects.create(
+                paciente=reserva.paciente,
+                medico=reserva.medico,
+                reserva=reserva,
+                descripcion=descripcion
+            )
+            messages.success(request, 'Historial médico agregado con éxito.')
+            return redirect('historial_paciente', paciente_id=reserva.paciente.id)
+        else:
+            messages.error(request, 'La descripción no puede estar vacía.')
+
+    return render(request, 'paginasenlace/agregar_historial.html', {'reserva': reserva})
+
 
 # Login
 def iniciar_sesion(request):
@@ -103,7 +136,7 @@ def registro(request):
 
 
 def vista_reserva(request):
-    # Definimos los querysets fuera para usarlos en GET y POST
+    # Obtener datos para los select
     sedes = Sede.objects.all()
     especialidades = Especialidad.objects.all()
     medicos = Medico.objects.select_related('user', 'especialidad', 'sede').all()
@@ -112,8 +145,6 @@ def vista_reserva(request):
     if request.method == 'POST':
         form = ReservaForm(request.POST)
 
-        # --- ESTA ES LA PARTE CLAVE DE LA SOLUCIÓN ---
-        # Le damos al formulario la lista de opciones válidas ANTES de llamar a is_valid()
         form.fields['sede'].choices = [(sede.id, sede.nombre) for sede in sedes]
         form.fields['especialidad'].choices = [(esp.id, esp.nombre) for esp in especialidades]
         form.fields['medico'].choices = [(medico.id, medico.user.get_full_name()) for medico in medicos]
@@ -156,3 +187,22 @@ def vista_reserva(request):
         'horas': horas,
     }
     return render(request, 'paginasinicio/reserva.html', context)
+
+@login_required
+def agenda_estatico(request):
+    reservas = []
+    try:
+        medico = Medico.objects.get(user=request.user)
+        reservas = Reserva.objects.filter(medico=medico).select_related('hora_disponible')
+    except Medico.DoesNotExist:
+        pass  # El usuario no es médico, no se muestran reservas
+
+    return render(request, 'paginasenlace/agenda.html', {'reservas': reservas})
+
+
+def historial_paciente_rut(request, rut):
+    reservas = Reserva.objects.filter(rut_paciente=rut).select_related('medico', 'hora_disponible')
+    return render(request, 'paginasenlace/historial_paciente.html', {'reservas': reservas, 'rut': rut})
+
+
+

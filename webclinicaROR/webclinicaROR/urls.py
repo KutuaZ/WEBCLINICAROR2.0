@@ -39,9 +39,11 @@ urlpatterns = [
     path('pagocuentas/', views.formulario_pagocuentas, name='pagocuentas'),
     path('soporte/', views.formulario_soporte, name='soporte'),
     path('preguntas/', views.preguntas_estatico, name='preguntas'),
-
+    path('agenda/', views.agenda_estatico, name='agenda'),
     path('reserva/', views.vista_reserva, name='reserva'),
-
+    path('Historial/<int:paciente_id>/', views.historial_paciente, name='historial_paciente'),
+    path('agregar_historial/<int:reserva_id>/', views.agregar_historial, name='agregar_historial'),
+    path('HistorialRut/<str:rut>/', views.historial_paciente_rut, name='historial_paciente_rut'),
 
     # Usuarios: login, logout, registro
     path('iniciarsesion/', views.iniciar_sesion, name='iniciarsesion'),

@@ -76,7 +76,7 @@
                     <option value="" disabled selected>Seleccione sede</option>
                     {% for sede in sedes %}<option value="{{ sede.id }}">{{ sede.nombre }}</option>{% endfor %}
                 </select>
-                 <div class="text-danger small mt-1">{{ form.sede.errors }}</div>
+                    <div class="text-danger small mt-1">{{ form.sede.errors }}</div>
             </div>
             <div class="col-md-6">
                 <label for="id_especialidad" class="form-label">Especialidad</label>
@@ -84,7 +84,7 @@
                     <option value="" disabled selected>Seleccione una especialidad</option>
                     {% for esp in especialidades %}<option value="{{ esp.id }}">{{ esp.nombre }}</option>{% endfor %}
                 </select>
-                 <div class="text-danger small mt-1">{{ form.especialidad.errors }}</div>
+                    <div class="text-danger small mt-1">{{ form.especialidad.errors }}</div>
             </div>
             <div class="col-md-6">
                 <label for="id_medico" class="form-label">Médico</label>
@@ -94,7 +94,7 @@
                         <option value="{{ medico.id }}" data-sede="{{ medico.sede.id }}" data-especialidad="{{ medico.especialidad.id }}" style="display: none;">{{ medico.user.get_full_name }}</option>
                     {% endfor %}
                 </select>
-                 <div class="text-danger small mt-1">{{ form.medico.errors }}</div>
+                    <div class="text-danger small mt-1">{{ form.medico.errors }}</div>
             </div>
             <div class="col-md-6">
                 <label for="id_fecha" class="form-label">Fecha de la Cita</label>
@@ -110,7 +110,7 @@
                         </option>
                     {% endfor %}
                 </select>
-                 <div class="text-danger small mt-1">{{ form.hora.errors }}</div>
+                    <div class="text-danger small mt-1">{{ form.hora.errors }}</div>
             </div>
         </div>
         <div class="text-center mt-4">
