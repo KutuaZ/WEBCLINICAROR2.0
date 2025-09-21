@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
-from .models import Especialidad, Sede, Medico, HoraDisponible, Reserva
+from .models import Paciente, Especialidad, Sede, Medico, HoraDisponible, Reserva, HistorialMedico
 from datetime import datetime, timedelta
 from django.utils import timezone
 from .forms import ReservaForm
@@ -110,29 +110,53 @@ def cerrar_sesion(request):
     logout(request)
     return redirect("index")
 
-# Registro
+
+
 def registro(request):
     if request.method == "POST":
-        nombre = request.POST.get("nombre")
-        email = request.POST.get("email")
+        nombre = request.POST.get("nombre", "").strip()
+        email = request.POST.get("email", "").strip()
         password = request.POST.get("password")
-        tipo_usuario = request.POST.get("tipo_usuario")  # paciente, med, admin-web
+        telefono = request.POST.get("telefono", "").strip() # Capturamos el teléfono
 
-        if User.objects.filter(username=email).exists():
-            messages.error(request, "El usuario ya existe")
+        if not all([nombre, email, password, telefono]):
+            messages.error(request, "Por favor, completa todos los campos.")
             return redirect("registro")
 
-        user = User.objects.create_user(username=email, email=email, password=password, first_name=nombre)
+        if User.objects.filter(username=email).exists():
+            messages.error(request, "El correo electrónico ya está registrado.")
+            return redirect("registro")
 
-        if tipo_usuario:
-            group, _ = Group.objects.get_or_create(name=tipo_usuario)
-            user.groups.add(group)
+        try:
+            # 1. Crear el objeto User
+            user = User.objects.create_user(username=email, email=email, password=password)
+            user.first_name = nombre
+            user.save()
 
-        user.save()
-        messages.success(request, "Cuenta creada correctamente. Ahora puedes iniciar sesión.")
-        return redirect("iniciarsesion")
+            # 2. Asignar al grupo "paciente"
+            grupo_paciente = Group.objects.get(name='paciente')
+            user.groups.add(grupo_paciente)
+
+            # 3. Crear el objeto Paciente asociado (¡ESTO FALTABA!)
+            Paciente.objects.create(user=user, telefono=telefono)
+
+            messages.success(request, "¡Cuenta creada con éxito! Ya puedes iniciar sesión.")
+            return redirect("iniciarsesion")
+
+        except Group.DoesNotExist:
+            messages.error(request, "Error interno: El grupo 'paciente' no existe.")
+            # Si hay un error, limpiamos el usuario creado para no dejar datos corruptos
+            if 'user' in locals() and user.id:
+                user.delete()
+            return redirect("registro")
+        except Exception as e:
+            messages.error(request, f"Ha ocurrido un error inesperado: {e}")
+            if 'user' in locals() and user.id:
+                user.delete()
+            return redirect("registro")
 
     return render(request, "paginasenlace/registro.html")
+
 
 
 def vista_reserva(request):
@@ -200,9 +224,55 @@ def agenda_estatico(request):
     return render(request, 'paginasenlace/agenda.html', {'reservas': reservas})
 
 
-def historial_paciente_rut(request, rut):
-    reservas = Reserva.objects.filter(rut_paciente=rut).select_related('medico', 'hora_disponible')
-    return render(request, 'paginasenlace/historial_paciente.html', {'reservas': reservas, 'rut': rut})
 
+@login_required
+def historial_paciente_rut(request, rut):
+    # Solo los médicos pueden ver esta página
+    if not hasattr(request.user, 'medico'):
+        messages.error(request, "Acceso no autorizado.")
+        return redirect('index')
+
+    medico_actual = request.user.medico
+
+    # --- Lógica para AÑADIR un nuevo historial (si el método es POST) ---
+    if request.method == 'POST':
+        reserva_id = request.POST.get('reserva_id')
+        descripcion = request.POST.get('descripcion')
+        
+        if reserva_id and descripcion:
+            reserva = get_object_or_404(Reserva, id=reserva_id)
+
+            if reserva.medico == medico_actual:
+                # --- LÓGICA CORREGIDA ---
+                # Busca al paciente por el RUT de la reserva. Si no lo encuentra, no hay problema.
+                paciente_obj = Paciente.objects.filter(user__email=reserva.email_paciente).first()
+
+                HistorialMedico.objects.create(
+                    paciente=paciente_obj, # Puede ser None si el paciente no está registrado
+                    medico=medico_actual,
+                    reserva=reserva,
+                    descripcion=descripcion
+                )
+                messages.success(request, "Historial agregado con éxito.")
+            else:
+                messages.error(request, "No tienes permiso para modificar esta reserva.")
+        else:
+            messages.error(request, "Faltan datos para agregar el historial.")
+        
+        return redirect('historial_paciente_rut', rut=rut)
+
+    # --- Lógica para MOSTRAR la página (GET) ---
+    reservas = Reserva.objects.filter(rut_paciente=rut).select_related(
+        'medico__user', 
+        'medico__especialidad', 
+        'hora_disponible'
+    ).prefetch_related('historialmedico_set__medico__user').order_by('-hora_disponible__fecha')
+
+    context = {
+        'reservas': reservas,
+        'nombre_paciente': reservas.first().nombre_paciente if reservas else "Desconocido",
+        'rut_paciente': rut,
+    }
+    return render(request, 'paginasenlace/historial_paciente.html', context)
 
 

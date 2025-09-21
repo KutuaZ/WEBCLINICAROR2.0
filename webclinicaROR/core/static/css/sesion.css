@@ -1,62 +1,71 @@
+/* /core/static/css/sesion.css */
 
-/* Tarjeta de inicio */
-.login-section .login-card {
-    background: linear-gradient(90deg, #dae9ff, #d7e6dabd);
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    width: 100%;
-    max-width: 700px;       /* ancho máximo */
-    min-height: 550px;      /* altura mínima para que se vea más grande */
+/* --- ESTILOS GENERALES PARA PÁGINAS DE SESIÓN Y REGISTRO --- */
+
+body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 2rem;          /* espacio interno */
-    margin: 0 auto;         
+    min-height: 100vh;
 }
 
-/* Campos del formulario */
+.login-section {
+    flex: 1; /* Ocupa el espacio disponible, empujando el footer hacia abajo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 120px; /* Espacio para el navbar */
+    padding-bottom: 4rem;
+}
+
+.login-card {
+    background: linear-gradient(90deg, #dae9ff, #d7e6dabd);
+    border-radius: 12px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 500px;
+}
+
+/* --- ESTILOS PARA FORMULARIO DE INICIO DE SESIÓN --- */
+
 #loginForm .form-control {
     border-radius: 12px;
     border: 2px solid #302929;
-    padding: 14px;          
+    padding: 14px;
     font-size: 1rem;
-    transition: all 0.3s ease;
 }
 
-/* Focus */
-#loginForm .form-control:focus {
-    border-color: #ecd501;
-    box-shadow: 0 0 8px rgba(250, 222, 139, 0.3);
-}
-
-/* Botón */
-#loginForm button[type="submit"] {
-    border-radius: 12px;
-    background-color: #60a582;
+/* BOTÓN DE INICIO DE SESIÓN (COLOR VERDE ORIGINAL) */
+.btn-login-custom {
+    background-color: #60a582; /* Verde agua */
+    border-color: #60a582;
     color: #fff;
-    transition: all 0.3s ease;
+    border-radius: 12px;
 }
 
-#loginForm button[type="submit"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+.btn-login-custom:hover {
+    background-color: #509470;
+    border-color: #509470;
 }
 
-/* ajuste celulares */
-@media (max-width: 576px) {
-    .login-section {
-        padding: 1rem;
-    }
-    .login-section .login-card {
-        max-width: 90%;        
-        min-height: auto;      
-        padding: 1.5rem;       
-    }
-    #loginForm .form-control {
-        padding: 10px;
-        font-size: 0.95rem;
-    }
-    #loginForm button[type="submit"] {
-        font-size: 1rem;
-    }
+
+/* --- ESTILOS PARA FORMULARIO DE REGISTRO --- */
+
+#registerForm .form-control {
+    border-radius: 12px;
+    border: 2px solid #302929;
+    padding: 14px;
+    font-size: 1rem;
+}
+
+/* BOTÓN DE REGISTRO (COLOR VERDE ORIGINAL) */
+.btn-register-custom {
+    background-color: #60a582; /* Verde agua */
+    border-color: #60a582;
+    color: #fff;
+    border-radius: 12px;
+}
+
+.btn-register-custom:hover {
+    background-color: #509470;
+    border-color: #509470;
 }

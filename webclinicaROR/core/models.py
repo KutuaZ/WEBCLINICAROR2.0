@@ -63,17 +63,22 @@ class Paciente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='paciente')
     telefono = models.CharField(max_length=20, blank=True, null=True)
     # Aquí agregar más campos en el futuro, como RUT, fecha de nacimiento, etc.
-
+    # Guardar el RUT para enlazarlo fácilmente con las reservas.
+    rut = models.CharField(max_length=20, unique=True, null=True, blank=True)   
+    
     def __str__(self):
         return self.user.get_full_name()
     
 
 class HistorialMedico(models.Model):
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, null=True, blank=True)
+    
     medico = models.ForeignKey(Medico, on_delete=models.CASCADE)
     reserva = models.ForeignKey(Reserva, on_delete=models.CASCADE)
     descripcion = models.TextField("Detalle de la atención")
     fecha = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Historial de {self.paciente} - {self.fecha.date()}"
+        # Usamos el nombre de la reserva para evitar errores si no hay un paciente
+        return f"Historial para la reserva de {self.reserva.nombre_paciente} - {self.fecha.date()}"

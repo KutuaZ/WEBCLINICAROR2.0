@@ -866,3 +866,32 @@ body {
 footer.footer-custom {
     margin-top: auto;
 }
+
+
+
+
+.btn-register-custom {
+    background-color: #60a582; /* Color verde agua */
+    border-color: #60a582;     /* Borde del mismo color */
+    color: #fff;               /* Texto blanco */
+    transition: all 0.3s ease;
+}
+
+.btn-register-custom:hover {
+    background-color: #509470; /* Un verde un poco más oscuro al pasar el mouse */
+    border-color: #509470;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.main-content-area {
+    flex: 1; /* Esto hace que el contenido principal ocupe el espacio disponible */
+}
