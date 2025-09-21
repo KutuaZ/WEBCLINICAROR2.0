@@ -7,6 +7,7 @@ from .models import Paciente, Especialidad, Sede, Medico, HoraDisponible, Reserv
 from datetime import datetime, timedelta
 from django.utils import timezone
 from .forms import ReservaForm
+from django.db import transaction
 
 
 # Páginas estáticas
@@ -116,43 +117,47 @@ def registro(request):
     if request.method == "POST":
         nombre = request.POST.get("nombre", "").strip()
         email = request.POST.get("email", "").strip()
+        telefono = request.POST.get("telefono", "").strip()
+        rut = request.POST.get("rut", "").strip()
         password = request.POST.get("password")
-        telefono = request.POST.get("telefono", "").strip() # Capturamos el teléfono
+        confirmar = request.POST.get("confirmar")
 
-        if not all([nombre, email, password, telefono]):
+        # --- VALIDACIONES (Estas ya estaban bien) ---
+        if not all([nombre, email, telefono, rut, password, confirmar]):
             messages.error(request, "Por favor, completa todos los campos.")
+            return redirect("registro")
+
+        if password != confirmar:
+            messages.error(request, "Las contraseñas no coinciden.")
             return redirect("registro")
 
         if User.objects.filter(username=email).exists():
             messages.error(request, "El correo electrónico ya está registrado.")
             return redirect("registro")
+        
+        if Paciente.objects.filter(rut=rut).exists():
+            messages.error(request, "El RUT ya está registrado.")
+            return redirect("registro")
 
         try:
-            # 1. Crear el objeto User
-            user = User.objects.create_user(username=email, email=email, password=password)
-            user.first_name = nombre
-            user.save()
+            with transaction.atomic():
+                #  Crear el usuario
+                user = User.objects.create_user(username=email, email=email, password=password)
+                user.first_name = nombre
+                user.save()
 
-            # 2. Asignar al grupo "paciente"
-            grupo_paciente = Group.objects.get(name='paciente')
-            user.groups.add(grupo_paciente)
+                #  Busca el grupo 'paciente'. Si no existe, lo crea.
+                grupo_paciente, created = Group.objects.get_or_create(name='paciente')
+                user.groups.add(grupo_paciente)
 
-            # 3. Crear el objeto Paciente asociado (¡ESTO FALTABA!)
-            Paciente.objects.create(user=user, telefono=telefono)
+                #  Crear el perfil del Paciente
+                Paciente.objects.create(user=user, telefono=telefono, rut=rut)
 
-            messages.success(request, "¡Cuenta creada con éxito! Ya puedes iniciar sesión.")
+            messages.success(request, "¡Registro completado con éxito! Ahora puedes iniciar sesión.")
             return redirect("iniciarsesion")
 
-        except Group.DoesNotExist:
-            messages.error(request, "Error interno: El grupo 'paciente' no existe.")
-            # Si hay un error, limpiamos el usuario creado para no dejar datos corruptos
-            if 'user' in locals() and user.id:
-                user.delete()
-            return redirect("registro")
         except Exception as e:
-            messages.error(request, f"Ha ocurrido un error inesperado: {e}")
-            if 'user' in locals() and user.id:
-                user.delete()
+            messages.error(request, f"Ocurrió un error inesperado: {e}")
             return redirect("registro")
 
     return render(request, "paginasenlace/registro.html")
