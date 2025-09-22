@@ -44,6 +44,7 @@ urlpatterns = [
     path('Historial/<int:paciente_id>/', views.historial_paciente, name='historial_paciente'),
     path('agregar_historial/<int:reserva_id>/', views.agregar_historial, name='agregar_historial'),
     path('HistorialRut/<str:rut>/', views.historial_paciente_rut, name='historial_paciente_rut'),
+    path('historial_personal/', views.historial_personal, name='historial_personal'),
 
 
     # Usuarios: login, logout, registro

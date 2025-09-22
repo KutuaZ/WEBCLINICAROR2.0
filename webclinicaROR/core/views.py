@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
-from .models import Paciente, Especialidad, Sede, Medico, HoraDisponible, Reserva, HistorialMedico
+from .models import Paciente, Especialidad, Sede, Medico, HoraDisponible, Reserva, HistorialMedico, HistorialMedico
 from datetime import datetime, timedelta
 from django.utils import timezone
 from .forms import ReservaForm
@@ -248,12 +248,12 @@ def historial_paciente_rut(request, rut):
             reserva = get_object_or_404(Reserva, id=reserva_id)
 
             if reserva.medico == medico_actual:
-                # --- LÓGICA CORREGIDA ---
+                
                 # Busca al paciente por el RUT de la reserva. Si no lo encuentra, no hay problema.
-                paciente_obj = Paciente.objects.filter(user__email=reserva.email_paciente).first()
+                paciente_obj = Paciente.objects.filter(rut=reserva.rut_paciente).first()
 
                 HistorialMedico.objects.create(
-                    paciente=paciente_obj, # Puede ser None si el paciente no está registrado
+                    paciente=paciente_obj, 
                     medico=medico_actual,
                     reserva=reserva,
                     descripcion=descripcion
@@ -281,3 +281,25 @@ def historial_paciente_rut(request, rut):
     return render(request, 'paginasenlace/historial_paciente.html', context)
 
 
+@login_required
+def historial_personal(request):
+    try:
+        # Se busca al paciente asociado al usuario que ha iniciado sesión
+        paciente = Paciente.objects.get(user=request.user)
+        
+        # Se obtienen todos los historiales médicos asociados a ese paciente
+        historiales = HistorialMedico.objects.filter(paciente=paciente).order_by('-reserva__hora_disponible__fecha')
+        
+        context = {
+            'historiales': historiales,
+            'nombre_paciente': f"{paciente.user.first_name} {paciente.user.last_name}",
+            'rut_paciente': paciente.rut,
+        }
+        
+        # Se renderiza la plantilla correcta con el contexto
+        return render(request, 'paginasenlace/historial_personal.html', context)
+
+    except Paciente.DoesNotExist:
+        
+        messages.error(request, 'No se encontró un perfil de paciente asociado a su cuenta.')
+        return redirect('index')

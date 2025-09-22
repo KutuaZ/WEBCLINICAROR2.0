@@ -56,7 +56,7 @@ h1 {
     max-height: 0;
     overflow: hidden;
     padding: 0 1rem;
-    background: linear-gradient(90deg, #dae9ff, #d7e6dabd);#f1f1f1;
+    background: linear-gradient(90deg, #dae9ff, #d7e6dabd);
     transition: max-height 0.4s ease, padding 0.4s ease;
     display: flex;          
     align-items: flex-start; 
