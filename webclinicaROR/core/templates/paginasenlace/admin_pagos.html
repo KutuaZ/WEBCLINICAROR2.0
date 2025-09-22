@@ -1,8 +1,112 @@
 {% extends "paginasinicio/base.html" %}
+{% load currency_filters %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-center">Administración de Pagos</h2>
-    <p class="text-center">Aquí podrás gestionar los pagos de los pacientes.</p>
+<div class="container mt-5 mb-5">
+    <h2 class="text-center titulos3">Administración de Pagos</h2>
+    <p class="text-center text-muted">Busca un paciente por su RUT para gestionar sus cuentas pendientes.</p>
+
+    <form method="get" class="mb-4" style="max-width: 500px; margin: auto;">
+        <div class="input-group">
+            <input type="text" name="rut" class="form-control" placeholder="Ej: 12.345.678-9" value="{{ rut_buscado }}" required>
+            <button type="submit" class="btn btn-success">Buscar Paciente</button>
+        </div>
+    </form>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% if paciente %}
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4>Gestionando a: {{ paciente.user.get_full_name }} (RUT: {{ paciente.rut }})</h4>
+        </div>
+        <div class="card-body">
+            <h5>Cuentas Registradas</h5>
+            {% if cuentas %}
+                {% for cuenta in cuentas %}
+                <form method="post" class="mb-3 border p-3 rounded">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="edit">
+                    <input type="hidden" name="cuenta_id" value="{{ cuenta.id }}">
+                    <div class="row align-items-center">
+                        <div class="col-md-5"><strong>Concepto:</strong> {{ cuenta.concepto }}</div>
+                        <div class="col-md-3">
+                            <label><strong>Monto:</strong></label>
+                            <input type="number" name="monto" class="form-control" value="{{ cuenta.monto|floatformat:0 }}">
+                        </div>
+                        <div class="col-md-2 form-check">
+                            <input type="checkbox" name="pagado" class="form-check-input" {% if cuenta.pagado %}checked{% endif %}>
+                            <label class="form-check-label">Pagado</label>
+                        </div>
+                        <div class="col-md-2 d-flex gap-2">
+                            <button type="submit" class="btn btn-warning btn-sm">Guardar</button>
+                            <button type="submit" form="delete-form-{{ cuenta.id }}" class="btn btn-danger btn-sm">Borrar</button>
+                        </div>
+                    </div>
+                </form>
+                <form id="delete-form-{{ cuenta.id }}" method="post" class="d-none">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="cuenta_id" value="{{ cuenta.id }}">
+                </form>
+                {% endfor %}
+            {% else %}
+                <p>Este paciente no tiene cuentas registradas.</p>
+            {% endif %}
+
+            <hr>
+
+            {# ---  ARANCEL --- #}
+            <h5>Agregar Nueva Cuenta</h5>
+            <div class="mb-3">
+                <label for="arancel_selector" class="form-label">Opcional: Seleccionar arancel predefinido</label>
+                <select id="arancel_selector" class="form-select">
+                    <option value="">-- Llenar manualmente --</option>
+                    {% for arancel in aranceles_disponibles %}
+                        <option value="{{ arancel.id }}" data-nombre="{{ arancel.nombre }}" data-precio="{{ arancel.precio|floatformat:0 }}">
+                            {{ arancel.nombre }} ({{ arancel.precio|clp_format }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add">
+                {{ cuenta_form.as_p }}
+                <button type="submit" class="btn btn-success">Agregar Cuenta</button>
+            </form>
+        </div>
     </div>
+    {% elif rut_buscado %}
+        <div class="alert alert-warning text-center">No se encontró ningún paciente con el RUT ingresado.</div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const arancelSelector = document.getElementById('arancel_selector');
+    const conceptoInput = document.getElementById('id_concepto');
+    const montoInput = document.getElementById('id_monto');
+
+    arancelSelector.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        
+        if (selectedOption.value) {
+            conceptoInput.value = selectedOption.dataset.nombre;
+            montoInput.value = selectedOption.dataset.precio;
+        } else {
+            // Si elige la opción de llenar manualmente, se limpian los campos
+            conceptoInput.value = '';
+            montoInput.value = '';
+        }
+    });
+});
+</script>
 {% endblock %}

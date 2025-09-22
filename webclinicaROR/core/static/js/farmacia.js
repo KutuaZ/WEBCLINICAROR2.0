@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- LÓGICA PARA AÑADIR AL CARRITO ---
+    // --- LÓGICA  CARRITO ---
     const productListContainer = document.getElementById('product-list');
     
     if (!productListContainer) {
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(response => {
                 if (!response.ok) {
-                    // Si hay un error en el servidor (ej. 404, 500), lo mostramos
+
                     throw new Error(`Error del servidor: ${response.status} ${response.statusText}`);
                 }
                 return response.json();
@@ -40,16 +40,15 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 console.log('Respuesta del servidor:', data.mensaje);
                 
-                // Actualizamos el número en el ícono del carrito
                 const badge = document.getElementById('carrito-badge');
                 if (badge) {
                     let currentCount = parseInt(badge.textContent || 0);
                     badge.textContent = currentCount + 1;
                 }
 
-                // Damos feedback visual al usuario
+
                 button.textContent = '¡Agregado!';
-                button.disabled = true; // Deshabilitamos para evitar doble clic
+                button.disabled = true; 
                 setTimeout(() => {
                     button.textContent = 'Agregar al carrito';
                     button.disabled = false;
@@ -70,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const texto = buscador.value.toLowerCase();
             productos.forEach(prod => {
                 const nombre = prod.dataset.nombre.toLowerCase();
-                // Si el nombre del producto incluye el texto de búsqueda, lo muestra. Si no, lo oculta.
                 prod.style.display = nombre.includes(texto) ? '' : 'none';
             });
         });

@@ -1,0 +1,39 @@
+{% extends "paginasinicio/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <h2 class="text-center titulos3 mb-4">Mis Resultados de Laboratorio</h2>
+
+    {% if resultados %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Examen</th>
+                    <th>Fecha de Carga</th>
+                    <th>Descargar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resultado in resultados %}
+                <tr>
+                    <td>{{ resultado.titulo_examen }}</td>
+                    <td>{{ resultado.fecha_subido|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <a href="{{ resultado.archivo_resultado.url }}" class="btn btn-success btn-sm" target="_blank">
+                            Ver/Descargar
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center">
+        Aún no tienes resultados de laboratorio disponibles.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

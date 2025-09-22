@@ -17,14 +17,24 @@ class Sede(models.Model):
         return self.nombre
 
 class Medico(models.Model):
+    TIPO_CHOICES = [
+        ('PRESENCIAL', 'Presencial'),
+        ('TELEMEDICINA', 'Telemedicina'),
+        ('LABORATORIO', 'Laboratorio'),
+    ]
     # El campo 'nombre' en User (first_name) será el nombre del médico.
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    especialidad = models.ForeignKey(Especialidad, on_delete=models.CASCADE)
-    sede = models.ForeignKey(Sede, on_delete=models.CASCADE)
+    especialidad = models.ForeignKey(Especialidad, on_delete=models.SET_NULL, null=True, blank=True)
+    sede = models.ForeignKey(Sede, on_delete=models.SET_NULL, null=True, blank=True)
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES, default='PRESENCIAL') # <-- AÑADIR ESTA LÍNEA
+
 
     def __str__(self):
-        # Usamos el nombre del modelo User para evitar redundancia
-        return f"{self.user.get_full_name()} ({self.especialidad.nombre})"
+        # El __str__ ahora maneja los campos opcionales
+        especialidad_info = f" ({self.especialidad.nombre})" if self.especialidad else ""
+        sede_info = f" - {self.sede.nombre}" if self.sede else ""
+        return f"{self.user.get_full_name()}{especialidad_info} ({self.get_tipo_display()}{sede_info})"
+
 
 class HoraDisponible(models.Model):
     medico = models.ForeignKey(Medico, on_delete=models.CASCADE, related_name='horas_disponibles')
@@ -62,8 +72,6 @@ class Paciente(models.Model):
     
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='paciente')
     telefono = models.CharField(max_length=20, blank=True, null=True)
-    # Aquí agregar más campos en el futuro, como RUT, fecha de nacimiento, etc.
-    # Guardar el RUT para enlazarlo fácilmente con las reservas.
     rut = models.CharField(max_length=20, unique=True, null=True, blank=True)   
     
     def __str__(self):
@@ -134,3 +142,33 @@ class OrdenProducto(models.Model):
 
     def __str__(self):
         return f"{self.cantidad} x {self.producto.nombre} en Orden #{self.orden.id}"
+    
+    
+class Arancel(models.Model):
+    codigo = models.CharField(max_length=50, unique=True)
+    nombre = models.CharField(max_length=255)
+    precio = models.DecimalField(max_digits=10, decimal_places=0)
+
+    def __str__(self):
+        return f"{self.nombre} ({self.codigo})"
+
+class Cuenta(models.Model):
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name='cuentas')
+    concepto = models.CharField(max_length=255)
+    monto = models.DecimalField(max_digits=10, decimal_places=0)
+    fecha_emision = models.DateField(auto_now_add=True)
+    pagado = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Deuda de {self.paciente.user.get_full_name()} por {self.concepto}"
+    
+
+class ResultadoLaboratorio(models.Model):
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name='resultados')
+    reserva = models.OneToOneField(Reserva, on_delete=models.CASCADE, null=True, blank=True)
+    titulo_examen = models.CharField(max_length=255)
+    archivo_resultado = models.FileField(upload_to='resultados_laboratorio/')
+    fecha_subido = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Resultado de {self.titulo_examen} for {self.paciente.user.get_full_name()}"

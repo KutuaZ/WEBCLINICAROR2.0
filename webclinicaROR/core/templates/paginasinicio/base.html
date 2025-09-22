@@ -37,7 +37,7 @@
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarPaciente">
                                     <li><a class="dropdown-item" href="{% url 'historial_personal' %}">Mi historial</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'reservalab' %}">Resultados Laboratorio</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'resultados_laboratorio' %}">Resultados Laboratorio</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
                                 </ul>
@@ -63,12 +63,11 @@
                                     
                                     <li><a class="dropdown-item" href="{% url 'admin:core_ticket_changelist' %}">Gestionar Tickets</a></li>
                                     
-                                    {# --- ENLACE DE FARMACIA ACTIVADO --- #}
                                     <li><a class="dropdown-item" href="{% url 'admin_farmacia' %}">Gestionar Farmacia</a></li>
                                     <li><a class="dropdown-item" href="{% url 'admin_ordenes' %}">Ver Órdenes de Compra</a></li>
 
-                                    <li><a class="dropdown-item disabled" href="#">Gestionar Pagos</a></li>
-                                    <li><a class="dropdown-item disabled" href="#">Gestionar Aranceles</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'admin_pagos' %}">Gestionar Pagos</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'admin_aranceles' %}">Gestionar Aranceles</a></li>
 
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>

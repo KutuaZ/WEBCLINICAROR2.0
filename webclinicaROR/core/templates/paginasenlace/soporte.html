@@ -1,9 +1,7 @@
 {% extends "paginasinicio/base.html" %}
 {% load static %}
 
-
 {% block content %}
-    <!-- Sección Soporte y Sedes -->
     <section class="soporte-section py-5">
         <div class="container">
             <div class="text-center mb-5">
@@ -13,13 +11,12 @@
             </div>
 
             <div class="row g-4">
-                <!-- Card Sede Antofagasta -->
-                <div class="col-md-6 col-lg-3">
-                    <article class="soporte-card h-100">
+                <div class="col-md-6 col-lg-3 d-flex">
+                    <article class="soporte-card h-100 w-100">
                         <div class="soporte-media" style="background-image: url('{% static 'assets/image/intalacion3.png' %}')"></div>
                         <div class="soporte-body p-3 d-flex flex-column">
                             <h5 class="mb-2">Antofagasta</h5>
-                            <p class="text-muted mb-3 small">Av. Azapa 6001, Antofagasta</p>
+                            <p class="text-muted mb-3 small" style="min-height: 40px;">Av. Azapa 6001, <br>Antofagasta</p>
                             <div class="mt-auto d-flex flex-column gap-2">
                                 <a href="tel:+56912345678" class="btn btn-success btn-sm w-100">📞 Llamar</a>
                                 <a href="https://wa.me/56912345678" target="_blank"
@@ -29,13 +26,12 @@
                     </article>
                 </div>
 
-                <!-- Card Sede Santiago -->
-                <div class="col-md-6 col-lg-3">
-                    <article class="soporte-card h-100">
+                <div class="col-md-6 col-lg-3 d-flex">
+                    <article class="soporte-card h-100 w-100">
                         <div class="soporte-media" style="background-image: url('{% static 'assets/image/intalacion1.png' %}"></div>
                         <div class="soporte-body p-3 d-flex flex-column">
                             <h5 class="mb-2">Santiago</h5>
-                            <p class="text-muted mb-3 small">Av. sta Maria 1810 providencia, Santiago</p>
+                            <p class="text-muted mb-3 small" style="min-height: 40px;">Av. Sta. María 1810, <br>Providencia</p>
                             <div class="mt-auto d-flex flex-column gap-2">
                                 <a href="tel:+56987654321" class="btn btn-success btn-sm w-100">📞 Llamar</a>
                                 <a href="https://wa.me/56987654368" target="_blank"
@@ -45,13 +41,12 @@
                     </article>
                 </div>
 
-                <!-- Card Sede Viña del Mar -->
-                <div class="col-md-6 col-lg-3">
-                    <article class="soporte-card h-100">
+                <div class="col-md-6 col-lg-3 d-flex">
+                    <article class="soporte-card h-100 w-100">
                         <div class="soporte-media" style="background-image:url('{% static 'assets/image/intalacion2.png' %}')"></div>
                         <div class="soporte-body p-3 d-flex flex-column">
                             <h5 class="mb-2">Viña del Mar</h5>
-                            <p class="text-muted mb-3 small">C. Limache 1741, Viña del Mar</p>
+                            <p class="text-muted mb-3 small" style="min-height: 40px;">C. Limache 1741, <br>Viña del Mar</p>
                             <div class="mt-auto d-flex flex-column gap-2">
                                 <a href="tel:+56911223344" class="btn btn-success btn-sm w-100">📞 Llamar</a>
                                 <a href="https://wa.me/56911223344" target="_blank"
@@ -61,13 +56,12 @@
                     </article>
                 </div>
 
-                <!-- Card Sede Puerto Varas -->
-                <div class="col-md-6 col-lg-3">
-                    <article class="soporte-card h-100">
+                <div class="col-md-6 col-lg-3 d-flex">
+                    <article class="soporte-card h-100 w-100">
                         <div class="soporte-media" style="background-image:url('{% static 'assets/image/intalacion4.png' %}')"></div>
                         <div class="soporte-body p-3 d-flex flex-column">
                             <h5 class="mb-2">Puerto Varas</h5>
-                            <p class="text-muted mb-3 small">Av. Lagos 8765, Puerto Varas</p>
+                            <p class="text-muted mb-3 small" style="min-height: 40px;">Av. Lagos 8765, <br>Puerto Varas</p>
                             <div class="mt-auto d-flex flex-column gap-2">
                                 <a href="tel:+56955667788" class="btn btn-success btn-sm w-100">📞 Llamar</a>
                                 <a href="https://wa.me/56955667788" target="_blank"

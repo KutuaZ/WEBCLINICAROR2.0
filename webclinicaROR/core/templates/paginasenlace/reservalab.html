@@ -1,122 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ROR-Med Clinic</title>
-    <link rel="icon" href="/assets/icon/favicon.png" type="favicon"></a>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-    <!-- barra de navegacion-->
-<nav class="navbar navbar-expand-lg bg-light fixed-top">
-    <div class="container">
-    <a href="/index.html">
-    <img src="/assets/icon/clinic.png" alt="logo clinica" class="logo" id="logo"></a>
+{% extends "paginasinicio/base.html" %}
+{% load static %}
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+{% block content %}
+{# --- Se añade el enlace a la hoja de estilos de reserva --- #}
+<link rel="stylesheet" href="{% static 'css/reserva-styles.css' %}">
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="/index.html">Inicio</a></li>
-        <li class="nav-item"><a class="nav-link" href="/reserva.html">Reserva hora</a></li>
-        <li class="nav-item"><a class="nav-link" href="/especialidades.html">Especialidades</a></li>
-        <li class="nav-item"><a class="nav-link" href="/nosotros.html">Nosotros</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contacto.html">Contacto</a></li>
-        <li class="nav-item"><a class="nav-link" href="/iniciarsesion.html">Iniciar Sesion</a></li>
-        </ul>
-    </div>
-    </div>
-</nav>
-    <!-- fin barra de navegacion-->
+<div class="container reserva-form-container">
+    <h2 class="text-center reserva-titulo">Reserva de Exámenes y Laboratorio</h2>
     
-    <!-- reserva de examenes y laboratorio-->
-<section class="reserva-section py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center mb-5 fw-bold titulos3">Reserva de Exámenes y Laboratorio</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="reserva-card p-4 shadow-lg rounded-4 ">
-                    <form id="reservaForm" novalidate>
-                        <div class="mb-3">
-                            <label for="reserva-nombre" class="form-label fw-semibold">Nombre Completo</label>
-                            <input type="text" class="form-control form-control-lg" id="reserva-nombre" name="nombre" placeholder="Juan Pérez" required>
-                            <div class="invalid-feedback">Por favor, ingresa tu nombre completo.</div>
-                        </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
 
-                        <div class="mb-3">
-                            <label for="reserva-email" class="form-label fw-semibold">Correo Electrónico</label>
-                            <input type="email" class="form-control form-control-lg" id="reserva-email" name="email" placeholder="correo@ejemplo.com" required>
-                            <div class="invalid-feedback">Por favor, ingresa un correo válido.</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="reserva-examen" class="form-label fw-semibold">Tipo de Examen</label>
-                            <select class="form-select form-select-lg" id="reserva-examen" name="examen" required>
-                                <option value="" disabled selected>Selecciona un examen</option>
-                                <option value="sangre">Examen de Sangre</option>
-                                <option value="orina">Examen de Orina</option>
-                                <option value="glucosa">Glucosa</option>
-                                <option value="otros">Otros</option>
-                            </select>
-                            <div class="invalid-feedback">Selecciona un tipo de examen.</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="reserva-fecha" class="form-label fw-semibold">Fecha</label>
-                            <input type="date" class="form-control form-control-lg" id="reserva-fecha" name="fecha" required>
-                            <div class="invalid-feedback">Selecciona una fecha válida.</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="reserva-mensaje" class="form-label fw-semibold">Comentarios</label>
-                            <textarea class="form-control form-control-lg" id="reserva-mensaje" name="mensaje" rows="4" placeholder="Información adicional..." maxlength="200"></textarea>
-                            <div class="form-text text-end">Máximo 200 caracteres</div>
-                        </div>
-
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-warning btn-lg fw-bold">Reservar</button>
-                        </div>
-                    </form>
-                </div>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="row g-3">
+            <div class="col-md-6">{{ form.nombre_paciente.label_tag }} {{ form.nombre_paciente }}</div>
+            <div class="col-md-6">{{ form.email_paciente.label_tag }} {{ form.email_paciente }}</div>
+            <div class="col-md-6">{{ form.telefono_paciente.label_tag }} {{ form.telefono_paciente }}</div>
+            <div class="col-md-6">{{ form.rut_paciente.label_tag }} {{ form.rut_paciente }}</div>
+            
+            <div class="col-md-6">
+                <label for="id_fecha" class="form-label">Fecha del Examen</label>
+                <input type="date" class="form-control" id="id_fecha" name="fecha" required>
+            </div>
+            <div class="col-md-6">
+                <label for="id_hora" class="form-label">Hora Disponible</label>
+                <select class="form-select" id="id_hora" name="hora" required>
+                    <option value="" disabled selected>Seleccione una hora</option>
+                    {% for hora in horas %}
+                        <option value="{{ hora.id }}" data-fecha="{{ hora.fecha|date:'Y-m-d' }}" style="display: none;">
+                            {{ hora.hora_inicio|time:'H:i' }} - {{ hora.hora_fin|time:'H:i' }}
+                        </option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
-    </div>
-</section>
-
-
-    <!-- footer -->
-<footer class="footer-custom text-white py-4">
-    <div class="container">
-
-    <!-- Derechos reservados -->
-    <p class="text-center mb-4">&copy; 2024 ROR-Med Clinic. Todos los derechos reservados.</p>
-
-    <!-- Links -->
-    <p class="text-center mb-4">
-        <a href="#" class="text-white me-3">Política de Privacidad</a>
-        <a href="#" class="text-white">Términos de Servicio</a>
-    </p>
-
-    <!-- Imagen acreditado izquierda y número derecha -->
-    <div class="d-flex justify-content-between align-items-center flex-wrap">
-        <div class="d-flex align-items-center mb-2">
-        <img src="/assets/image/saludacredit.png" alt="Acreditado" class="img-fluid" style="max-height:190px;">
+        <div class="text-center mt-4">
+            <button type="submit" class="reserva-btn btn btn-lg">Reservar Hora</button>
         </div>
-        <div class="mb-2">
-        <p class="mb-0">Numero de emergencia 24 Horas: +56 9 1234 5678</p>
-        </div>
-    </div>
+    </form>
+</div>
+{% endblock %}
 
-    </div>
-</footer>
-    <!-- fin footer -->
-</body>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script src="/js/lab.js"></script>
-</html>
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fechaInput = document.getElementById('id_fecha');
+    const horaSelect = document.getElementById('id_hora');
+
+    function filtrarHorasPorFecha() {
+        const fecha = fechaInput.value;
+        horaSelect.value = '';
+
+        Array.from(horaSelect.options).forEach(opt => {
+            if (!opt.value) return;
+            const coincideFecha = !fecha || opt.dataset.fecha === fecha;
+            opt.style.display = coincideFecha ? '' : 'none';
+        });
+    }
+    fechaInput.addEventListener('change', filtrarHorasPorFecha);
+    filtrarHorasPorFecha(); // Llamada inicial
+});
+</script>
+{% endblock %}

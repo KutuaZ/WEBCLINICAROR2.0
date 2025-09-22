@@ -126,30 +126,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 /* Acordeón en especialidades */
-document.querySelectorAll('.acordeon-boton').forEach(boton => {
-    boton.addEventListener('click', () => {
-    const item = boton.parentElement;
-    item.classList.toggle('activo');
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('.acordeon-boton').forEach(button => {
+        button.addEventListener('click', () => {
+            const acordeonItem = button.parentElement;
+            if (acordeonItem.classList.contains('active')) {
+                acordeonItem.classList.remove('active');
+            } else {
+                document.querySelectorAll('.acordeon-item.active').forEach(openItem => {
+                    openItem.classList.remove('active');
+                });
+                acordeonItem.classList.add('active');
+            }
+        });
     });
 });
-
-/* flechas cambio acordeon */
-const botones = document.querySelectorAll(".acordeon-boton");
-
-botones.forEach(boton => {
-    boton.addEventListener("click", function () {
-    this.classList.toggle("active");
-
-    const contenido = this.nextElementSibling;
-    if (contenido.style.maxHeight) {
-        contenido.style.maxHeight = null;
-    } else {
-        contenido.style.maxHeight = contenido.scrollHeight + "px";
-        }
-    });
-});
-
-
 /* Validación del formulario contacto */
 (() => {
     'use strict';
