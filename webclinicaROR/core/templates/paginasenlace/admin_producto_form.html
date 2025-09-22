@@ -1,0 +1,16 @@
+{% extends "paginasinicio/base.html" %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <h2 class="titulos3 text-center">{% if producto %}Editar Producto{% else %}Añadir Nuevo Producto{% endif %}</h2>
+    
+    <form method="POST" enctype="multipart/form-data" class="shadow p-4 rounded-3 bg-light" style="max-width: 600px; margin: auto;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{% url 'admin_farmacia' %}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-success">Guardar Producto</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -63,7 +63,9 @@
                                     
                                     <li><a class="dropdown-item" href="{% url 'admin:core_ticket_changelist' %}">Gestionar Tickets</a></li>
                                     
-                                    <li><a class="dropdown-item disabled" href="#">Gestionar Farmacia</a></li>
+                                    {# --- ENLACE DE FARMACIA ACTIVADO --- #}
+                                    <li><a class="dropdown-item" href="{% url 'admin_farmacia' %}">Gestionar Farmacia</a></li>
+                                    
                                     <li><a class="dropdown-item disabled" href="#">Gestionar Pagos</a></li>
                                     <li><a class="dropdown-item disabled" href="#">Gestionar Aranceles</a></li>
 

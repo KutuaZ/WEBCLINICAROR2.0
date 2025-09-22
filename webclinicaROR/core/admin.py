@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Especialidad, Sede, Medico, HoraDisponible, Reserva, Ticket
+from .models import Especialidad, Sede, Medico, HoraDisponible, Reserva, Ticket, Producto, Orden, OrdenProducto
 # Register your models here.
 
 
@@ -31,6 +31,24 @@ class TicketAdmin(admin.ModelAdmin):
     list_display = ('nombre_completo', 'email', 'asunto', 'fecha_creacion', 'leido')
     list_filter = ('leido', 'asunto')
     search_fields = ('nombre_completo', 'email', 'mensaje')
+    
+    
+    
+class ProductoAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'precio', 'stock')
+    search_fields = ('nombre',)
+
+class OrdenProductoInline(admin.TabularInline):
+    model = OrdenProducto
+    extra = 0
+    readonly_fields = ('producto', 'cantidad', 'precio')
+
+class OrdenAdmin(admin.ModelAdmin):
+    list_display = ('id', 'usuario', 'fecha_creacion', 'total', 'estado')
+    list_filter = ('estado', 'fecha_creacion')
+    search_fields = ('usuario__username', 'id')
+    inlines = [OrdenProductoInline]
+
 
 admin.site.register(Especialidad)
 admin.site.register(Sede)
@@ -38,3 +56,5 @@ admin.site.register(Medico, MedicoAdmin)
 admin.site.register(HoraDisponible, HoraDisponibleAdmin)
 admin.site.register(Reserva, ReservaAdmin)
 admin.site.register(Ticket, TicketAdmin)
+admin.site.register(Producto, ProductoAdmin)
+admin.site.register(Orden, OrdenAdmin)

@@ -2,7 +2,7 @@
 
 from django import forms
 import re
-from .models import Ticket
+from .models import Ticket, Producto
 
 class ReservaForm(forms.Form):
     # Definimos widgets para añadir clases de CSS y atributos de HTML
@@ -56,4 +56,17 @@ class TicketForm(forms.ModelForm):
                 ('reclamo', 'Reclamo'),
             ]),
             'mensaje': forms.Textarea(attrs={'class': 'form-control form-control-lg', 'rows': 5, 'placeholder': 'Escribe tu mensaje aquí...', 'required': True}),
+        }
+        
+
+class ProductoForm(forms.ModelForm):
+    class Meta:
+        model = Producto
+        fields = ['nombre', 'descripcion', 'precio', 'stock', 'imagen']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'precio': forms.NumberInput(attrs={'class': 'form-control', 'step': '1'}),
+            'stock': forms.NumberInput(attrs={'class': 'form-control'}),
+            'imagen': forms.FileInput(attrs={'class': 'form-control'}),
         }

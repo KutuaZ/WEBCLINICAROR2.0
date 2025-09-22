@@ -3,10 +3,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
-from .models import Paciente, Especialidad, Sede, Medico, HoraDisponible, Reserva, HistorialMedico, HistorialMedico, Ticket
+from .models import (Paciente, Especialidad, Sede, Medico, HoraDisponible, Reserva, HistorialMedico, HistorialMedico, Ticket, Producto, Orden)
 from datetime import datetime, timedelta
 from django.utils import timezone
-from .forms import ReservaForm, TicketForm
+from .forms import ReservaForm, TicketForm, ProductoForm
 from django.db import transaction
 
 
@@ -36,7 +36,8 @@ def formulario_contacto(request):
     return render(request, 'paginasinicio/contacto.html', {'form': form})
 
 def farmacia_estatico(request):
-    return render(request, 'paginasinicio/farmacia.html')
+    productos = Producto.objects.all() # Obtener todos los productos
+    return render(request, 'paginasinicio/farmacia.html', {'productos': productos})
 
 def formulario_reservalab(request):
     return render(request, 'paginasenlace/reservalab.html')
@@ -327,8 +328,54 @@ def admin_farmacia(request):
     if not request.user.groups.filter(name='admin-web').exists():
         messages.error(request, "Acceso no autorizado.")
         return redirect('index')
-    # Lógica para administrar la farmacia
-    return render(request, 'paginasenlace/admin_farmacia.html')
+    productos = Producto.objects.all()
+    return render(request, 'paginasenlace/admin_farmacia.html', {'productos': productos})
+
+@login_required
+def admin_producto_crear(request):
+    if not request.user.groups.filter(name='admin-web').exists():
+        return redirect('index')
+    
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Producto añadido correctamente.')
+            return redirect('admin_farmacia')
+    else:
+        form = ProductoForm()
+    
+    return render(request, 'paginasenlace/admin_producto_form.html', {'form': form})
+
+@login_required
+def admin_producto_editar(request, producto_id):
+    if not request.user.groups.filter(name='admin-web').exists():
+        return redirect('index')
+    
+    producto = get_object_or_404(Producto, id=producto_id)
+    
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES, instance=producto)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Producto actualizado correctamente.')
+            return redirect('admin_farmacia')
+    else:
+        form = ProductoForm(instance=producto)
+        
+    return render(request, 'paginasenlace/admin_producto_form.html', {'form': form, 'producto': producto})
+
+@login_required
+def admin_producto_eliminar(request, producto_id):
+    if not request.user.groups.filter(name='admin-web').exists():
+        return redirect('index')
+    
+    producto = get_object_or_404(Producto, id=producto_id)
+    producto.delete()
+    messages.success(request, 'Producto eliminado correctamente.')
+    return redirect('admin_farmacia')
+
+
 
 @login_required
 def admin_pagos(request):

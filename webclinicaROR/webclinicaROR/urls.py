@@ -20,11 +20,14 @@ from django.contrib import admin
 from django.urls import path, include
 from core import views
 from django.contrib.auth import views as auth_views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     # Admin
     path('admin/', admin.site.urls),
-
+    
+    
     # Páginas estáticas
     path('', views.index_estatico, name='home'),
     path('index/', views.index_estatico, name='index'),
@@ -46,12 +49,14 @@ urlpatterns = [
     path('HistorialRut/<str:rut>/', views.historial_paciente_rut, name='historial_paciente_rut'),
     path('historial_personal/', views.historial_personal, name='historial_personal'),
     
-    # Páginas de administración
-    path('admin/tickets/', views.admin_tickets, name='admin_tickets'),
-    path('admin/farmacia/', views.admin_farmacia, name='admin_farmacia'),
-    path('admin/pagos/', views.admin_pagos, name='admin_pagos'),
-    path('admin/aranceles/', views.admin_aranceles, name='admin_aranceles'),
-    path('admin/', admin.site.urls),
+    # --- NUEVAS URLS PARA LA FARMACIA ---
+    path('admin-portal/farmacia/', views.admin_farmacia, name='admin_farmacia'),
+    path('admin-portal/farmacia/crear/', views.admin_producto_crear, name='admin_producto_crear'),
+    path('admin-portal/farmacia/editar/<int:producto_id>/', views.admin_producto_editar, name='admin_producto_editar'),
+    path('admin-portal/farmacia/eliminar/<int:producto_id>/', views.admin_producto_eliminar, name='admin_producto_eliminar'),
+    
+    path('admin-portal/pagos/', views.admin_pagos, name='admin_pagos'),
+    path('admin-portal/aranceles/', views.admin_aranceles, name='admin_aranceles'),
     
 
 
@@ -67,3 +72,7 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
