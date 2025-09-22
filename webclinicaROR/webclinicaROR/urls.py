@@ -17,7 +17,7 @@ Including another URLconf
 
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from core import views
 from django.contrib.auth import views as auth_views
 
@@ -45,6 +45,15 @@ urlpatterns = [
     path('agregar_historial/<int:reserva_id>/', views.agregar_historial, name='agregar_historial'),
     path('HistorialRut/<str:rut>/', views.historial_paciente_rut, name='historial_paciente_rut'),
     path('historial_personal/', views.historial_personal, name='historial_personal'),
+    
+    # Páginas de administración
+    path('admin/tickets/', views.admin_tickets, name='admin_tickets'),
+    path('admin/farmacia/', views.admin_farmacia, name='admin_farmacia'),
+    path('admin/pagos/', views.admin_pagos, name='admin_pagos'),
+    path('admin/aranceles/', views.admin_aranceles, name='admin_aranceles'),
+    path('admin/', admin.site.urls),
+    
+
 
 
     # Usuarios: login, logout, registro

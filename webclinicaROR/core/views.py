@@ -3,11 +3,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
-from .models import Paciente, Especialidad, Sede, Medico, HoraDisponible, Reserva, HistorialMedico, HistorialMedico
+from .models import Paciente, Especialidad, Sede, Medico, HoraDisponible, Reserva, HistorialMedico, HistorialMedico, Ticket
 from datetime import datetime, timedelta
 from django.utils import timezone
-from .forms import ReservaForm
+from .forms import ReservaForm, TicketForm
 from django.db import transaction
+
 
 
 # Páginas estáticas
@@ -24,7 +25,15 @@ def nosotros_estatico(request):
     return render(request, 'paginasinicio/nosotros.html')
 
 def formulario_contacto(request):
-    return render(request, 'paginasinicio/contacto.html')
+    if request.method == 'POST':
+        form = TicketForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '¡Tu mensaje ha sido enviado! Te responderemos a la brevedad.')
+            return redirect('contacto')
+    else:
+        form = TicketForm()
+    return render(request, 'paginasinicio/contacto.html', {'form': form})
 
 def farmacia_estatico(request):
     return render(request, 'paginasinicio/farmacia.html')
@@ -239,7 +248,6 @@ def historial_paciente_rut(request, rut):
 
     medico_actual = request.user.medico
 
-    # --- Lógica para AÑADIR un nuevo historial (si el método es POST) ---
     if request.method == 'POST':
         reserva_id = request.POST.get('reserva_id')
         descripcion = request.POST.get('descripcion')
@@ -266,7 +274,6 @@ def historial_paciente_rut(request, rut):
         
         return redirect('historial_paciente_rut', rut=rut)
 
-    # --- Lógica para MOSTRAR la página (GET) ---
     reservas = Reserva.objects.filter(rut_paciente=rut).select_related(
         'medico__user', 
         'medico__especialidad', 
@@ -303,3 +310,38 @@ def historial_personal(request):
         
         messages.error(request, 'No se encontró un perfil de paciente asociado a su cuenta.')
         return redirect('index')
+    
+    
+
+# Vistas de administración para admin-web
+@login_required
+def admin_tickets(request):
+    if not request.user.groups.filter(name='admin-web').exists():
+        messages.error(request, "Acceso no autorizado.")
+        return redirect('index')
+    tickets = Ticket.objects.all().order_by('-fecha_creacion')
+    return render(request, 'paginasenlace/admin_tickets.html', {'tickets': tickets})
+
+@login_required
+def admin_farmacia(request):
+    if not request.user.groups.filter(name='admin-web').exists():
+        messages.error(request, "Acceso no autorizado.")
+        return redirect('index')
+    # Lógica para administrar la farmacia
+    return render(request, 'paginasenlace/admin_farmacia.html')
+
+@login_required
+def admin_pagos(request):
+    if not request.user.groups.filter(name='admin-web').exists():
+        messages.error(request, "Acceso no autorizado.")
+        return redirect('index')
+    # Lógica para administrar pagos
+    return render(request, 'paginasenlace/admin_pagos.html')
+
+@login_required
+def admin_aranceles(request):
+    if not request.user.groups.filter(name='admin-web').exists():
+        messages.error(request, "Acceso no autorizado.")
+        return redirect('index')
+    # Lógica para administrar aranceles
+    return render(request, 'paginasenlace/admin_aranceles.html')

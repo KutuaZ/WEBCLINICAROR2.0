@@ -10,90 +10,80 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" 
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
-
-<style>
-    html, body { height: 100%; }
-    body { display: flex; flex-direction: column; min-height: 100vh; }
-    .main-content { flex: 1 0 auto; display: flex; flex-direction: column; }
-    footer.footer-custom { margin-top: auto; }
-</style>
-
 </head>
 <body>
-    <!-- Navbar -->
-<nav class="navbar navbar-expand-lg bg-light fixed-top">
-    <div class="container">
-    <a href="{% url 'index' %}">
-        <img src="{% static 'assets/icon/clinic.png' %}" alt="logo clinica" class="logo" id="logo">
-    </a>
+    <nav class="navbar navbar-expand-lg bg-light fixed-top">
+        <div class="container">
+            <a href="{% url 'index' %}">
+                <img src="{% static 'assets/icon/clinic.png' %}" alt="logo clinica" class="logo" id="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'reserva' %}">Reserva hora</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'especialidades' %}">Especialidades</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-    </button>
+                    {% if user.is_authenticated %}
+                        {% if user|es_paciente %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarPaciente" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Opciones Paciente
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarPaciente">
+                                    <li><a class="dropdown-item" href="{% url 'historial_personal' %}">Mi historial</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'reservalab' %}">Resultados Laboratorio</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                                </ul>
+                            </li>
+                        {% elif user|es_medico %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarMedico" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Opciones Médico
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarMedico">
+                                    <li><a class="dropdown-item" href="{% url 'agenda' %}">Agenda Consultas</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'soporte' %}">Soporte Médico</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                                </ul>
+                            </li>
+                        {% elif user|es_adminweb %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarAdmin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Opciones Admin
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarAdmin">
+                                    
+                                    <li><a class="dropdown-item" href="{% url 'admin:core_ticket_changelist' %}">Gestionar Tickets</a></li>
+                                    
+                                    <li><a class="dropdown-item disabled" href="#">Gestionar Farmacia</a></li>
+                                    <li><a class="dropdown-item disabled" href="#">Gestionar Pagos</a></li>
+                                    <li><a class="dropdown-item disabled" href="#">Gestionar Aranceles</a></li>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'reserva' %}">Reserva hora</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'especialidades' %}">Especialidades</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
-
-        {% if user.is_authenticated %}
-            {% if user|es_paciente %}
-            <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarPaciente" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Opciones Paciente
-                </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarPaciente">
-                <li><a class="dropdown-item" href="{% url 'historial_personal' %}">Mi historial</a></li>
-                <li><a class="dropdown-item" href="{% url 'reservalab' %}">Resultados Laboratorio</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'iniciarsesion' %}">Iniciar sesión</a></li>
+                    {% endif %}
                 </ul>
-            </li>
-            {% elif user|es_medico %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarMedico" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Opciones Médico
-                </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarMedico">
-                <li><a class="dropdown-item" href="{% url 'agenda' %}">Agenda Consultas</a></li>
-                <li><a class="dropdown-item" href="{% url 'soporte' %}">Soporte Médico</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
-                </ul>
-            </li>
-            {% elif user|es_adminweb %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarAdmin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Opciones Admin
-                </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarAdmin">
-                <li><a class="dropdown-item" href="{% url 'farmacia' %}">Farmacia Online</a></li>
-                <li><a class="dropdown-item" href="{% url 'pagocuentas' %}">Pago de Cuentas</a></li>
-                <li><a class="dropdown-item" href="{% url 'aranceles' %}">Aranceles</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
-                </ul>
-            </li>
-            {% endif %}
-        {% else %}
-            <li class="nav-item"><a class="nav-link" href="{% url 'iniciarsesion' %}">Iniciar sesión</a></li>
-        {% endif %}
-        </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="main-content">
+        {% block content %}
+        {% endblock %}
     </div>
-    </div>
-</nav>
-    <!-- fin Navbar -->
 
-    {% block content %}
-    <!-- Aquí va el contenido de cada página -->
-    {% endblock %}
-
-    <!-- Footer -->
     <footer class="footer-custom text-white py-4">
         <div class="container text-center">
             <p class="mb-2">&copy; 2024 ROR-Med Clinic. Todos los derechos reservados.</p>
@@ -111,9 +101,10 @@
             </div>
         </div>
     </footer>
-    <!-- fin footer -->
-
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    
+    {% block extra_js %}
+    {% endblock %}
 </body>
 </html>

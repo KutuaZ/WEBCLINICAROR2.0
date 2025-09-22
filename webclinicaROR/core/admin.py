@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Especialidad, Sede, Medico, HoraDisponible, Reserva
+from .models import Especialidad, Sede, Medico, HoraDisponible, Reserva, Ticket
 # Register your models here.
 
 
@@ -25,9 +25,16 @@ class ReservaAdmin(admin.ModelAdmin):
     def get_hora_inicio(self, obj):
         return obj.hora_disponible.hora_inicio
     get_hora_inicio.short_description = 'Hora de Inicio'
+    
+    
+class TicketAdmin(admin.ModelAdmin):
+    list_display = ('nombre_completo', 'email', 'asunto', 'fecha_creacion', 'leido')
+    list_filter = ('leido', 'asunto')
+    search_fields = ('nombre_completo', 'email', 'mensaje')
 
 admin.site.register(Especialidad)
 admin.site.register(Sede)
 admin.site.register(Medico, MedicoAdmin)
 admin.site.register(HoraDisponible, HoraDisponibleAdmin)
 admin.site.register(Reserva, ReservaAdmin)
+admin.site.register(Ticket, TicketAdmin)

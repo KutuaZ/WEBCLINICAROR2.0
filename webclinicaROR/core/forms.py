@@ -2,6 +2,7 @@
 
 from django import forms
 import re
+from .models import Ticket
 
 class ReservaForm(forms.Form):
     # Definimos widgets para añadir clases de CSS y atributos de HTML
@@ -18,13 +19,13 @@ class ReservaForm(forms.Form):
         attrs={'class': 'form-control', 'placeholder': '12.345.678-9'}
     ))
 
-    # Dejamos los ChoiceFields sin datos, ya que se llenan dinámicamente
+    
     sede = forms.ChoiceField(label='Sede', choices=[], widget=forms.Select(attrs={'class': 'form-select'}))
     especialidad = forms.ChoiceField(label='Especialidad', choices=[], widget=forms.Select(attrs={'class': 'form-select'}))
     medico = forms.ChoiceField(label='Médico', choices=[], widget=forms.Select(attrs={'class': 'form-select'}))
     hora = forms.ChoiceField(label='Hora de la Cita', choices=[], widget=forms.Select(attrs={'class': 'form-select'}))
 
-    # --- VALIDACIONES PERSONALIZADAS (sin cambios) ---
+    # --- VALIDACIONES 
     def clean_rut_paciente(self):
         rut = self.cleaned_data['rut_paciente']
         if not re.match(r'^\d{1,2}\.\d{3}\.\d{3}-[\dkK]$', rut):
@@ -37,3 +38,22 @@ class ReservaForm(forms.Form):
         if not telefono_limpio.isdigit():
             raise forms.ValidationError("El teléfono solo debe contener números.")
         return telefono
+    
+    
+
+class TicketForm(forms.ModelForm):
+    class Meta:
+        model = Ticket
+        fields = ['nombre_completo', 'email', 'asunto', 'mensaje']
+        widgets = {
+            'nombre_completo': forms.TextInput(attrs={'class': 'form-control form-control-lg', 'placeholder': 'Juan Pérez', 'required': True}),
+            'email': forms.EmailInput(attrs={'class': 'form-control form-control-lg', 'placeholder': 'correo@ejemplo.com', 'required': True}),
+            'asunto': forms.Select(attrs={'class': 'form-select form-select-lg', 'required': True}, choices=[
+                ('', 'Selecciona un asunto'),
+                ('trabajo', 'Busco trabajo'),
+                ('practica', 'Busco práctica profesional'),
+                ('alianza', 'Busco alianza o convenio'),
+                ('reclamo', 'Reclamo'),
+            ]),
+            'mensaje': forms.Textarea(attrs={'class': 'form-control form-control-lg', 'rows': 5, 'placeholder': 'Escribe tu mensaje aquí...', 'required': True}),
+        }

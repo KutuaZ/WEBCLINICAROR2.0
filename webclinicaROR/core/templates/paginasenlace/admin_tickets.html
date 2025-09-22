@@ -1,0 +1,21 @@
+{% extends "paginasinicio/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Tickets de Contacto</h2>
+    <div class="list-group">
+        {% for ticket in tickets %}
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start {% if not ticket.leido %}list-group-item-warning{% endif %}">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ ticket.asunto }}</h5>
+                    <small>{{ ticket.fecha_creacion|date:"d/m/Y H:i" }}</small>
+                </div>
+                <p class="mb-1">{{ ticket.mensaje|truncatewords:20 }}</p>
+                <small>De: {{ ticket.nombre_completo }} ({{ ticket.email }})</small>
+            </a>
+        {% empty %}
+            <p class="text-center">No hay tickets.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

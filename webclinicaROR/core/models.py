@@ -82,3 +82,15 @@ class HistorialMedico(models.Model):
     def __str__(self):
         # Usamos el nombre de la reserva para evitar errores si no hay un paciente
         return f"Historial para la reserva de {self.reserva.nombre_paciente} - {self.fecha.date()}"
+
+
+class Ticket(models.Model):
+    nombre_completo = models.CharField(max_length=100)
+    email = models.EmailField()
+    asunto = models.CharField(max_length=100)
+    mensaje = models.TextField()
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    leido = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Ticket de {self.nombre_completo} - {self.asunto}"
