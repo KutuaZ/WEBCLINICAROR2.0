@@ -119,7 +119,10 @@ class Orden(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     total = models.DecimalField(max_digits=10, decimal_places=0, default=0)
     estado = models.CharField(max_length=20, choices=ESTADOS, default='Pendiente')
-
+    nombre_completo = models.CharField(max_length=100, default='')
+    direccion = models.CharField(max_length=255, default='')
+    ciudad = models.CharField(max_length=100, default='')
+    telefono = models.CharField(max_length=20, default='')
     def __str__(self):
         return f"Orden #{self.id} - {self.usuario.username if self.usuario else 'Invitado'}"
 

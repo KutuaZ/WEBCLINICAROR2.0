@@ -3,11 +3,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
-from .models import (Paciente, Especialidad, Sede, Medico, HoraDisponible, Reserva, HistorialMedico, HistorialMedico, Ticket, Producto, Orden)
+from .models import (Paciente, Especialidad, Sede, Medico, HoraDisponible, Reserva, HistorialMedico, HistorialMedico, Ticket, Producto, Orden, OrdenProducto)
 from datetime import datetime, timedelta
 from django.utils import timezone
-from .forms import ReservaForm, TicketForm, ProductoForm
+from .forms import ReservaForm, TicketForm, ProductoForm, CheckoutForm
 from django.db import transaction
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 
 
@@ -392,3 +394,152 @@ def admin_aranceles(request):
         return redirect('index')
     # Lógica para administrar aranceles
     return render(request, 'paginasenlace/admin_aranceles.html')
+
+
+@require_POST
+def agregar_al_carrito(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    carrito = request.session.get('carrito', {})
+    
+    # Si el producto ya está en el carrito, aumentamos la cantidad
+    if str(producto_id) in carrito:
+        carrito[str(producto_id)]['cantidad'] += 1
+    else:
+        # Si no, lo agregamos
+        carrito[str(producto_id)] = {
+            'nombre': producto.nombre,
+            'precio': int(producto.precio),
+            'cantidad': 1,
+            'imagen': producto.imagen.url if producto.imagen else ''
+        }
+    
+    request.session['carrito'] = carrito
+    return JsonResponse({'mensaje': 'Producto agregado al carrito'})
+
+def ver_carrito(request):
+    carrito = request.session.get('carrito', {})
+    items = []
+    total = 0
+    for id, detalles in carrito.items():
+        subtotal = detalles['precio'] * detalles['cantidad']
+        total += subtotal
+        items.append({
+            'id': id,
+            'nombre': detalles['nombre'],
+            'precio': detalles['precio'],
+            'cantidad': detalles['cantidad'],
+            'imagen': detalles['imagen'],
+            'subtotal': subtotal
+        })
+    form = CheckoutForm()
+    return render(request, 'paginasenlace/carrito.html', {'items': items, 'total': total})
+
+
+@require_POST
+def eliminar_del_carrito(request, producto_id):
+    carrito = request.session.get('carrito', {})
+    if str(producto_id) in carrito:
+        del carrito[str(producto_id)]
+        request.session['carrito'] = carrito
+        messages.success(request, 'Producto eliminado del carrito.')
+    return redirect('ver_carrito')
+
+@login_required
+@require_POST # Nos aseguramos que esta vista solo acepte peticiones POST
+def procesar_compra(request):
+    carrito = request.session.get('carrito', {})
+    if not carrito:
+        messages.error(request, 'Tu carrito está vacío.')
+        return redirect('farmacia')
+
+    # Procesamos el formulario con los datos del POST
+    form = CheckoutForm(request.POST)
+    if not form.is_valid():
+        # Si el formulario no es válido, volvemos al carrito mostrando los errores
+        messages.error(request, 'Por favor, completa correctamente los datos de envío.')
+        # Re-renderizamos la página del carrito con los errores
+        # (necesitamos recrear el contexto de la vista ver_carrito)
+        items = []
+        total = 0
+        for id, detalles in carrito.items():
+            subtotal = detalles['precio'] * detalles['cantidad']
+            total += subtotal
+            items.append({
+                'id': id, 'nombre': detalles['nombre'], 'precio': detalles['precio'],
+                'cantidad': detalles['cantidad'], 'imagen': detalles['imagen'], 'subtotal': subtotal
+            })
+        return render(request, 'paginasenlace/carrito.html', {'items': items, 'total': total, 'form': form})
+
+    with transaction.atomic():
+        total_orden = 0
+        for id, detalles in carrito.items():
+            producto = get_object_or_404(Producto, id=id)
+            if producto.stock < detalles['cantidad']:
+                messages.error(request, f'No hay suficiente stock para {producto.nombre}.')
+                return redirect('ver_carrito')
+            total_orden += detalles['precio'] * detalles['cantidad']
+
+        # Creamos la orden y guardamos los datos del formulario
+        orden = form.save(commit=False)
+        orden.usuario = request.user
+        orden.total = total_orden
+        orden.estado = 'Pendiente'
+        orden.save()
+        
+        for id, detalles in carrito.items():
+            producto = Producto.objects.get(id=id)
+            OrdenProducto.objects.create(
+                orden=orden, producto=producto,
+                cantidad=detalles['cantidad'], precio=detalles['precio']
+            )
+            producto.stock -= detalles['cantidad']
+            producto.save()
+
+    request.session['carrito'] = {}
+    messages.success(request, '¡Tu compra ha sido procesada con éxito!')
+    return redirect('farmacia')
+
+# --- VISTA PARA QUE EL ADMIN VEA LAS ÓRDENES ---
+@login_required
+def admin_ordenes(request):
+    if not request.user.groups.filter(name='admin-web').exists():
+        messages.error(request, "Acceso no autorizado.")
+        return redirect('index')
+    
+    ordenes = Orden.objects.all().order_by('-fecha_creacion')
+    return render(request, 'paginasenlace/admin_ordenes.html', {'ordenes': ordenes})
+
+
+@login_required
+@require_POST # Para seguridad, solo se puede acceder a través de un formulario POST
+def admin_orden_actualizar_estado(request, orden_id, nuevo_estado):
+    if not request.user.groups.filter(name='admin-web').exists():
+        messages.error(request, "Acceso no autorizado.")
+        return redirect('index')
+    
+    orden = get_object_or_404(Orden, id=orden_id)
+    
+    # Validamos que el nuevo estado sea uno de los permitidos
+    estados_validos = [estado[0] for estado in Orden.ESTADOS]
+    if nuevo_estado in estados_validos:
+        orden.estado = nuevo_estado
+        orden.save()
+        messages.success(request, f"La orden #{orden.id} ha sido actualizada a '{nuevo_estado}'.")
+    else:
+        messages.error(request, "Estado no válido.")
+
+    return redirect('admin_ordenes')
+
+@login_required
+@require_POST
+def admin_orden_eliminar(request, orden_id):
+    if not request.user.groups.filter(name='admin-web').exists():
+        messages.error(request, "Acceso no autorizado.")
+        return redirect('index')
+
+    orden = get_object_or_404(Orden, id=orden_id)
+    # Importante: Si se elimina una orden cancelada, el stock NO se devuelve.
+    # Si quisieras devolver el stock, se necesitaría una lógica adicional aquí.
+    orden.delete()
+    messages.success(request, f"La orden #{orden.id} ha sido eliminada.")
+    return redirect('admin_ordenes')

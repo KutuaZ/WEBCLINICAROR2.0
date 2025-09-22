@@ -1,0 +1,84 @@
+{% extends "paginasinicio/base.html" %}
+{% load static %}
+{% load currency_filters %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <h2 class="titulos3 text-center mb-4">🛒 Tu Carrito de Compras</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% if items %}
+    <div class="row g-5">
+        {# Columna del resumen del pedido #}
+        <div class="col-lg-7">
+            <h4>Resumen de tu Pedido</h4>
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">Producto</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td>
+                                <img src="{{ item.imagen }}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border-radius: 5px;">
+                                {{ item.nombre }}
+                            </td>
+                            <td>{{ item.precio|clp_format }}</td>
+                            <td>{{ item.cantidad }}</td>
+                            <td>{{ item.subtotal|clp_format }}</td>
+                            <td>
+                                <form action="{% url 'eliminar_del_carrito' item.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">&times;</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+                {# --- BOTÓN PARA VOLVER A LA FARMACIA --- #}
+            <div class="mt-4">
+                <a href="{% url 'farmacia' %}" class="btn btn-success">
+                    &larr; Seguir comprando
+                </a>
+            </div>
+        </div>
+
+        {# Columna del formulario de envío y pago #}
+        <div class="col-lg-5">
+            <h4>Datos de Envío</h4>
+            <div class="card p-4 shadow-sm">
+                <form action="{% url 'procesar_compra' %}" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <hr>
+                    <div class="text-end">
+                        <h4>Total a Pagar: <span class="fw-bold">{{ total|clp_format }}</span></h4>
+                        <button type="submit" class="btn btn-success btn-lg mt-3">Finalizar Compra y Pagar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    {% else %}
+    <div class="text-center">
+        <p class="lead">Tu carrito está vacío.</p>
+        <a href="{% url 'farmacia' %}" class="btn btn-success mt-3">Ir a la Farmacia</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

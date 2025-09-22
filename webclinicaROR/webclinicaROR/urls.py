@@ -57,9 +57,17 @@ urlpatterns = [
     
     path('admin-portal/pagos/', views.admin_pagos, name='admin_pagos'),
     path('admin-portal/aranceles/', views.admin_aranceles, name='admin_aranceles'),
+    path('admin-portal/ordenes/', views.admin_ordenes, name='admin_ordenes'),
+        path('admin-portal/ordenes/actualizar/<int:orden_id>/<str:nuevo_estado>/', views.admin_orden_actualizar_estado, name='admin_orden_actualizar_estado'),
+    path('admin-portal/ordenes/eliminar/<int:orden_id>/', views.admin_orden_eliminar, name='admin_orden_eliminar'),
+
     
 
-
+    # --- NUEVAS URLS PARA CARRITO Y COMPRA ---
+    path('carrito/agregar/<int:producto_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
+    path('carrito/', views.ver_carrito, name='ver_carrito'),
+    path('carrito/eliminar/<int:producto_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
+    path('compra/procesar/', views.procesar_compra, name='procesar_compra'),
 
     # Usuarios: login, logout, registro
     path('iniciarsesion/', views.iniciar_sesion, name='iniciarsesion'),

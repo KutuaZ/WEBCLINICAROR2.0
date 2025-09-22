@@ -5,6 +5,7 @@
 {% block content %}
 <link rel="stylesheet" href="{% static '/css/Farmacia.css' %}">
 
+{# ... (Barra de búsqueda secundaria) ... #}
 <nav class="navbar navbar-expand-lg navbar-secondary bg-white shadow-sm mt-5">
     <div class="container">
         <form class="d-flex mx-auto w-50" role="search">
@@ -13,32 +14,23 @@
         </form>
         <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-                <a class="nav-link position-relative" data-bs-toggle="offcanvas" href="#carritoPanel">
+                <a class="nav-link position-relative" href="{% url 'ver_carrito' %}"> {# <-- CAMBIO: Enlace directo al carrito #}
                     <img src="{% static '/assets/icon/carrito.png' %}" alt="Carrito">
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                    <span id="carrito-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ request.session.carrito|length }} {# <-- Muestra la cantidad de items en el carrito #}
+                    </span>
                 </a>
             </li>
         </ul>
     </div>
 </nav>
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="carritoPanel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title">🛒 Tu Carrito</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <div class="offcanvas-body d-flex flex-column">
-        <ul id="lista-carrito" class="list-group flex-grow-1"></ul>
-        <hr>
-        <p class="fw-bold">Total: <span id="total-carrito">$0</span></p>
-        <button class="btn btn-success w-100 mt-2">Comprar</button>
-    </div>
-</div>
+{# SE ELIMINA EL OFFCANVAS DE AQUÍ PORQUE AHORA TENEMOS UNA PÁGINA DEDICADA #}
 
 <section class="productos-section py-5 bg-light">
     <div class="container">
         <h2 class="text-center mb-5 titulos3">Nuestros Productos</h2>
-        <div class="row g-4">
+        <div id="product-list" class="row g-4"> {# <-- Añadimos un ID para el contenedor de productos #}
 
             {% for producto in productos %}
             <div class="col-md-4 producto" data-nombre="{{ producto.nombre }}">
@@ -48,7 +40,14 @@
                         <h4 class="producto-nombre">{{ producto.nombre }}</h4>
                         <p class="producto-desc">{{ producto.descripcion|truncatewords:15 }}</p>
                         <p class="producto-precio">{{ producto.precio|clp_format }}</p>
-                        <button class="btn btn-success btn-add">Agregar al carrito</button>
+                        
+                        {# --- CAMBIO IMPORTANTE --- #}
+                        {# Añadimos el ID del producto al botón y restringimos si no hay stock #}
+                        {% if producto.stock > 0 %}
+                            <button class="btn btn-success btn-add" data-producto-id="{{ producto.id }}">Agregar al carrito</button>
+                        {% else %}
+                            <button class="btn btn-secondary" disabled>Sin Stock</button>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -61,5 +60,9 @@
 {% endblock %}
 
 {% block extra_js %}
+{# Necesitamos el token CSRF para las peticiones seguras #}
+<script>
+    const csrftoken = '{{ csrf_token }}';
+</script>
 <script src="{% static '/js/farmacia.js' %}"></script>
 {% endblock %}

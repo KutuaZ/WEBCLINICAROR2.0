@@ -2,7 +2,7 @@
 
 from django import forms
 import re
-from .models import Ticket, Producto
+from .models import Ticket, Producto, Orden
 
 class ReservaForm(forms.Form):
     # Definimos widgets para añadir clases de CSS y atributos de HTML
@@ -69,4 +69,15 @@ class ProductoForm(forms.ModelForm):
             'precio': forms.NumberInput(attrs={'class': 'form-control', 'step': '1'}),
             'stock': forms.NumberInput(attrs={'class': 'form-control'}),
             'imagen': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+    
+class CheckoutForm(forms.ModelForm):
+    class Meta:
+        model = Orden
+        fields = ['nombre_completo', 'direccion', 'ciudad', 'telefono']
+        widgets = {
+            'nombre_completo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre Completo'}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Av. Siempreviva 742'}),
+            'ciudad': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Santiago'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: +56 9 1234 5678'}),
         }

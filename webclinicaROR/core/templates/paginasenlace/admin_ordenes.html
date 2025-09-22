@@ -1,0 +1,91 @@
+{% extends "paginasinicio/base.html" %}
+{% load static %}
+{% load currency_filters %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <h2 class="titulos3 text-center mb-4">Historial de Órdenes de Compra</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>N° Orden</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Dirección de Envío</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Productos</th>
+                    <th>Acciones</th> {# <-- NUEVA COLUMNA #}
+                </tr>
+            </thead>
+            <tbody>
+                {% for orden in ordenes %}
+                <tr>
+                    <td>{{ orden.id }}</td>
+                    <td>{{ orden.fecha_creacion|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <strong>{{ orden.nombre_completo }}</strong><br>
+                        <small class="text-muted">{{ orden.usuario.username }}</small>
+                    </td>
+                    <td>
+                        {{ orden.direccion }}<br>
+                        {{ orden.ciudad }}<br>
+                        Tel: {{ orden.telefono }}
+                    </td>
+                    <td>{{ orden.total|clp_format }}</td>
+                    <td>
+                        {# Cambiamos el color del badge según el estado #}
+                        {% if orden.estado == 'Pendiente' %}
+                            <span class="badge bg-warning text-dark">{{ orden.estado }}</span>
+                        {% elif orden.estado == 'Completado' %}
+                            <span class="badge bg-success">{{ orden.estado }}</span>
+                        {% elif orden.estado == 'Cancelado' %}
+                            <span class="badge bg-danger">{{ orden.estado }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <ul class="list-unstyled mb-0">
+                        {% for item in orden.items.all %}
+                            <li>{{ item.cantidad }} x {{ item.producto.nombre }}</li>
+                        {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        {# --- BOTONES DE ACCIÓN --- #}
+                        <div class="d-flex flex-column gap-2">
+                            {% if orden.estado == 'Pendiente' %}
+                            <form action="{% url 'admin_orden_actualizar_estado' orden.id 'Completado' %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-sm w-100">Completar</button>
+                            </form>
+                            <form action="{% url 'admin_orden_actualizar_estado' orden.id 'Cancelado' %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-secondary btn-sm w-100">Cancelar</button>
+                            </form>
+                            {% endif %}
+
+                            <form action="{% url 'admin_orden_eliminar' orden.id %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm w-100" onclick="return confirm('¿Estás seguro de que quieres eliminar esta orden? Esta acción no se puede deshacer.');">Eliminar</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center">No hay órdenes registradas.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
