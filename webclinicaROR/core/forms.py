@@ -1,11 +1,9 @@
-# core/forms.py
 
 from django import forms
 import re
 from .models import Ticket, Producto, Orden, Arancel, Cuenta
 
 class ReservaForm(forms.Form):
-    # Definimos widgets para añadir clases de CSS y atributos de HTML
     nombre_paciente = forms.CharField(label='Nombre Completo', max_length=100, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Juan Pérez'}
     ))
@@ -121,7 +119,7 @@ class ReservaLabForm(forms.Form):
 
 
 class ReservaOnlineForm(forms.Form):
-    # Hereda los campos y validaciones que sí necesitamos
+    # Hereda los campos y validaciones 
     nombre_paciente = forms.CharField(label='Nombre Completo', max_length=100, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Juan Pérez'}
     ))

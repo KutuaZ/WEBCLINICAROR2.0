@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         loginForm.addEventListener("submit", function (e) {
             let valid = true;
-            // Tu lógica de validación para el login...
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!email.value.trim() || !emailPattern.test(email.value.trim())) {
                 valid = false;

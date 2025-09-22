@@ -22,7 +22,6 @@ class Medico(models.Model):
         ('TELEMEDICINA', 'Telemedicina'),
         ('LABORATORIO', 'Laboratorio'),
     ]
-    # El campo 'nombre' en User (first_name) será el nombre del médico.
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     especialidad = models.ForeignKey(Especialidad, on_delete=models.SET_NULL, null=True, blank=True)
     sede = models.ForeignKey(Sede, on_delete=models.SET_NULL, null=True, blank=True)
@@ -30,7 +29,6 @@ class Medico(models.Model):
 
 
     def __str__(self):
-        # El __str__ ahora maneja los campos opcionales
         especialidad_info = f" ({self.especialidad.nombre})" if self.especialidad else ""
         sede_info = f" - {self.sede.nombre}" if self.sede else ""
         return f"{self.user.get_full_name()}{especialidad_info} ({self.get_tipo_display()}{sede_info})"
@@ -88,7 +86,6 @@ class HistorialMedico(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        # Usamos el nombre de la reserva para evitar errores si no hay un paciente
         return f"Historial para la reserva de {self.reserva.nombre_paciente} - {self.fecha.date()}"
 
 

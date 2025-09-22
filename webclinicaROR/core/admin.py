@@ -5,18 +5,18 @@ from .models import (
 )
 
 class MedicoAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'especialidad', 'sede', 'tipo') # <-- Añadir 'tipo'
-    list_filter = ('tipo', 'sede', 'especialidad') # <-- Añadir 'tipo'
+    list_display = ('__str__', 'especialidad', 'sede', 'tipo') 
+    list_filter = ('tipo', 'sede', 'especialidad') 
     search_fields = ('user__first_name', 'user__last_name', 'especialidad__nombre')
 
 class HoraDisponibleAdmin(admin.ModelAdmin):
     list_display = ('medico', 'fecha', 'hora_inicio', 'hora_fin', 'disponible')
-    list_filter = ('disponible', 'medico__tipo', 'medico', 'fecha') # <-- Añadir filtro por tipo
+    list_filter = ('disponible', 'medico__tipo', 'medico', 'fecha') 
     search_fields = ('medico__user__first_name', 'fecha')
 
 class ReservaAdmin(admin.ModelAdmin):
     list_display = ('nombre_paciente', 'medico', 'get_fecha', 'get_hora_inicio')
-    list_filter = ('medico__tipo', 'medico', 'hora_disponible__fecha') # <-- Añadir filtro por tipo
+    list_filter = ('medico__tipo', 'medico', 'hora_disponible__fecha') 
     search_fields = ('nombre_paciente', 'rut_paciente', 'medico__user__first_name')
 
     def get_fecha(self, obj):
@@ -60,4 +60,4 @@ admin.site.register(Reserva, ReservaAdmin)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(Producto, ProductoAdmin)
 admin.site.register(Orden, OrdenAdmin)
-admin.site.register(ResultadoLaboratorio, ResultadoLaboratorioAdmin) # <-- Nuevo registro
+admin.site.register(ResultadoLaboratorio, ResultadoLaboratorioAdmin) 

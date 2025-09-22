@@ -23,7 +23,6 @@
     align-items: center;
 }
 
-/* --- SOLUCIÓN AL COLOR "PEGADO" Y AL FOCO AZUL --- */
 
 /* Cuando el cursor está sobre el botón, se oscurece */
 .acordeon-boton:hover {

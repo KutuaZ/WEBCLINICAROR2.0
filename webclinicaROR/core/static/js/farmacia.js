@@ -8,12 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     productListContainer.addEventListener('click', (e) => {
-        // Nos aseguramos de que el clic fue en un botón de "Agregar al carrito"
         if (e.target && e.target.classList.contains('btn-add')) {
             const button = e.target;
             const productoId = button.dataset.productoId;
 
-            // Verificamos que tengamos el token de seguridad
             if (typeof csrftoken === 'undefined') {
                 console.error('Error Crítico: El token CSRF (csrftoken) no está definido en la plantilla HTML.');
                 alert('Error de seguridad. No se pudo procesar la solicitud.');

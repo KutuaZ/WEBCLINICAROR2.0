@@ -42,7 +42,6 @@
 
             <div class="col-md-6">
                 <label for="id_medico" class="form-label">Profesional</label>
-                {# --- CORRECCIÓN CLAVE: Dejamos que Django renderice el select --- #}
                 <select class="form-select" id="id_medico" name="medico" required>
                     <option value="" disabled selected>Seleccione un profesional</option>
                     {% for medico in medicos %}
@@ -57,7 +56,6 @@
             </div>
             <div class="col-md-12">
                 <label for="id_hora" class="form-label">Hora Disponible</label>
-                 {# --- CORRECCIÓN CLAVE: Dejamos que Django renderice el select --- #}
                 <select class="form-select" id="id_hora" name="hora" required>
                     <option value="" disabled selected>Seleccione una hora</option>
                     {% for hora in horas %}
@@ -77,7 +75,6 @@
 {% endblock %}
 
 {% block extra_js %}
-{# Este script se mantiene igual, ya que funciona correctamente #}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const medicoSelect = document.getElementById('id_medico');

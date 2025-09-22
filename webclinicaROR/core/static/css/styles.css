@@ -893,5 +893,5 @@ body {
     min-height: 100vh;
 }
 .main-content-area {
-    flex: 1; /* Esto hace que el contenido principal ocupe el espacio disponible */
+    flex: 1; 
 }

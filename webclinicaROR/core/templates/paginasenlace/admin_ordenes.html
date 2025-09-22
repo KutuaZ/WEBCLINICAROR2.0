@@ -23,7 +23,7 @@
                     <th>Total</th>
                     <th>Estado</th>
                     <th>Productos</th>
-                    <th>Acciones</th> {# <-- NUEVA COLUMNA #}
+                    <th>Acciones</th> 
                 </tr>
             </thead>
             <tbody>
@@ -42,7 +42,6 @@
                     </td>
                     <td>{{ orden.total|clp_format }}</td>
                     <td>
-                        {# Cambiamos el color del badge según el estado #}
                         {% if orden.estado == 'Pendiente' %}
                             <span class="badge bg-warning text-dark">{{ orden.estado }}</span>
                         {% elif orden.estado == 'Completado' %}

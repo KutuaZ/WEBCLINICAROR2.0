@@ -9,7 +9,7 @@ body {
 }
 
 .login-section {
-    flex: 1; /* Ocupa el espacio disponible, empujando el footer hacia abajo */
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -34,7 +34,7 @@ body {
     font-size: 1rem;
 }
 
-/* BOTÓN DE INICIO DE SESIÓN (COLOR VERDE ORIGINAL) */
+/* BOTÓN DE INICIO DE SESIÓN */
 .btn-login-custom {
     background-color: #60a582; /* Verde agua */
     border-color: #60a582;
@@ -57,7 +57,7 @@ body {
     font-size: 1rem;
 }
 
-/* BOTÓN DE REGISTRO (COLOR VERDE ORIGINAL) */
+/* BOTÓN DE REGISTRO */
 .btn-register-custom {
     background-color: #60a582; /* Verde agua */
     border-color: #60a582;

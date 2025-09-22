@@ -11,7 +11,6 @@ from django.utils import timezone
 from datetime import datetime, timedelta
 from django import forms
 
-# Importaciones correctas y completas de modelos y formularios
 from .models import (
     Paciente, Especialidad, Sede, Medico, HoraDisponible, Reserva,
     HistorialMedico, Ticket, Producto, Orden, OrdenProducto, Arancel, Cuenta,
@@ -86,7 +85,6 @@ def formulario_reservaonline(request):
     horas_disponibles = HoraDisponible.objects.filter(medico__in=medicos_telemedicina, disponible=True)
 
     if request.method == 'POST':
-        # Usamos el nuevo formulario específico
         form = ReservaOnlineForm(request.POST)
         form.fields['medico'].choices = [(m.id, m.user.get_full_name()) for m in medicos_telemedicina]
         form.fields['hora'].choices = [(h.id, f"{h.hora_inicio}") for h in horas_disponibles]
@@ -132,7 +130,6 @@ def formulario_reservalab(request):
         if form.is_valid():
             datos = form.cleaned_data
             try:
-                # --- LÓGICA DE GUARDADO QUE FALTABA ---
                 hora_obj = HoraDisponible.objects.get(id=datos['hora'], disponible=True)
 
                 Reserva.objects.create(

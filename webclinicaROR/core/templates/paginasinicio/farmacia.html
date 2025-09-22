@@ -14,24 +14,21 @@
         </form>
         <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-                <a class="nav-link position-relative" href="{% url 'ver_carrito' %}"> {# <-- CAMBIO: Enlace directo al carrito #}
+                <a class="nav-link position-relative" href="{% url 'ver_carrito' %}"> 
                     <img src="{% static '/assets/icon/carrito.png' %}" alt="Carrito">
                     <span id="carrito-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        {{ request.session.carrito|length }} {# <-- Muestra la cantidad de items en el carrito #}
-                    </span>
+                        {{ request.session.carrito|length }} 
                 </a>
             </li>
         </ul>
     </div>
 </nav>
 
-{# SE ELIMINA EL OFFCANVAS DE AQUÍ PORQUE AHORA TENEMOS UNA PÁGINA DEDICADA #}
 
 <section class="productos-section py-5 bg-light">
     <div class="container">
         <h2 class="text-center mb-5 titulos3">Nuestros Productos</h2>
-        <div id="product-list" class="row g-4"> {# <-- Añadimos un ID para el contenedor de productos #}
-
+        <div id="product-list" class="row g-4"> 
             {% for producto in productos %}
             <div class="col-md-4 producto" data-nombre="{{ producto.nombre }}">
                 <div class="producto-card shadow-sm rounded-4">
@@ -41,8 +38,6 @@
                         <p class="producto-desc">{{ producto.descripcion|truncatewords:15 }}</p>
                         <p class="producto-precio">{{ producto.precio|clp_format }}</p>
                         
-                        {# --- CAMBIO IMPORTANTE --- #}
-                        {# Añadimos el ID del producto al botón y restringimos si no hay stock #}
                         {% if producto.stock > 0 %}
                             <button class="btn btn-success btn-add" data-producto-id="{{ producto.id }}">Agregar al carrito</button>
                         {% else %}
@@ -60,7 +55,6 @@
 {% endblock %}
 
 {% block extra_js %}
-{# Necesitamos el token CSRF para las peticiones seguras #}
 <script>
     const csrftoken = '{{ csrf_token }}';
 </script>

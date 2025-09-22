@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block content %}
-{# --- Se añade el enlace a la hoja de estilos de reserva --- #}
 <link rel="stylesheet" href="{% static 'css/reserva-styles.css' %}">
 
 <div class="container reserva-form-container">
@@ -65,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     fechaInput.addEventListener('change', filtrarHorasPorFecha);
-    filtrarHorasPorFecha(); // Llamada inicial
+    filtrarHorasPorFecha(); 
 });
 </script>
 {% endblock %}
