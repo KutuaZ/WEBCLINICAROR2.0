@@ -5,17 +5,33 @@ from .models import Ticket, Producto, Orden, Arancel, Cuenta
 
 class ReservaForm(forms.Form):
     nombre_paciente = forms.CharField(label='Nombre Completo', max_length=100, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Juan Pérez'}
-    ))
+        attrs={'class': 'form-control', 'placeholder': 'Juan Pérez'}),
+        error_messages={
+            'required': 'Por favor, ingresa tu nombre completo.',
+            'max_length': 'El nombre no puede exceder los 100 caracteres.'
+        }
+    )
     email_paciente = forms.EmailField(label='Correo Electrónico', widget=forms.EmailInput(
-        attrs={'class': 'form-control', 'placeholder': 'correo@ejemplo.com'}
-    ))
+        attrs={'class': 'form-control', 'placeholder': 'correo@ejemplo.com'}),
+        error_messages={
+            'required': 'Por favor, ingresa tu correo electrónico.',
+            'invalid': 'Por favor, ingresa un correo electrónico válido.'
+        }
+    )
     telefono_paciente = forms.CharField(label='Teléfono', max_length=15, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': '+56 9 1234 5678'}
-    ))
+        attrs={'class': 'form-control', 'placeholder': '+56 9 1234 5678'}),
+        error_messages={
+            'required': 'Por favor, ingresa tu número de teléfono.',
+            'max_length': 'El teléfono no puede exceder los 15 caracteres.'
+        }
+    )
     rut_paciente = forms.CharField(label='RUT', max_length=12, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': '12.345.678-9'}
-    ))
+        attrs={'class': 'form-control', 'placeholder': '12.345.678-9'}),
+        error_messages={
+            'required': 'Por favor, ingresa tu RUT.',
+            'max_length': 'El RUT no puede exceder los 12 caracteres.'
+        }
+    )
 
     
     sede = forms.ChoiceField(label='Sede', choices=[], widget=forms.Select(attrs={'class': 'form-select'}))
@@ -32,9 +48,8 @@ class ReservaForm(forms.Form):
     
     def clean_telefono_paciente(self):
         telefono = self.cleaned_data['telefono_paciente']
-        telefono_limpio = telefono.replace(" ", "").replace("+", "")
-        if not telefono_limpio.isdigit():
-            raise forms.ValidationError("El teléfono solo debe contener números.")
+        if not re.match(r'^(\+?56\s?)?9\s?\d{4}\s?\d{4}$', telefono):
+            raise forms.ValidationError("El formato del teléfono debe ser, por ejemplo: +56 9 1234 5678.")
         return telefono
     
     
@@ -104,34 +119,66 @@ class CuentaForm(forms.ModelForm):
 
 class ReservaLabForm(forms.Form):
     nombre_paciente = forms.CharField(label='Nombre Completo', max_length=100, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Juan Pérez'}
-    ))
+        attrs={'class': 'form-control', 'placeholder': 'Juan Pérez'}),
+        error_messages={
+            'required': 'Por favor, ingresa tu nombre completo.',
+            'max_length': 'El nombre no puede exceder los 100 caracteres.'
+        }
+    )
     email_paciente = forms.EmailField(label='Correo Electrónico', widget=forms.EmailInput(
-        attrs={'class': 'form-control', 'placeholder': 'correo@ejemplo.com'}
-    ))
+        attrs={'class': 'form-control', 'placeholder': 'correo@ejemplo.com'}),
+        error_messages={
+            'required': 'Por favor, ingresa tu correo electrónico.',
+            'invalid': 'Por favor, ingresa un correo electrónico válido.'
+        }
+    )
     telefono_paciente = forms.CharField(label='Teléfono', max_length=15, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': '+56 9 1234 5678'}
-    ))
+        attrs={'class': 'form-control', 'placeholder': '+56 9 1234 5678'}),
+        error_messages={
+            'required': 'Por favor, ingresa tu número de teléfono.',
+            'max_length': 'El teléfono no puede exceder los 15 caracteres.'
+        }
+    )
     rut_paciente = forms.CharField(label='RUT', max_length=12, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': '12.345.678-9'}
-    ))
+        attrs={'class': 'form-control', 'placeholder': '12.345.678-9'}),
+        error_messages={
+            'required': 'Por favor, ingresa tu RUT.',
+            'max_length': 'El RUT no puede exceder los 12 caracteres.'
+        }
+    )
     hora = forms.ChoiceField(label='Hora de la Cita', choices=[], widget=forms.Select(attrs={'class': 'form-select'}))
 
 
 class ReservaOnlineForm(forms.Form):
     # Hereda los campos y validaciones 
     nombre_paciente = forms.CharField(label='Nombre Completo', max_length=100, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Juan Pérez'}
-    ))
+        attrs={'class': 'form-control', 'placeholder': 'Juan Pérez'}), 
+        error_messages={
+            'required': 'Por favor, ingresa tu nombre completo.',
+            'max_length': 'El nombre no puede exceder los 100 caracteres.'
+        }
+    )
     email_paciente = forms.EmailField(label='Correo Electrónico', widget=forms.EmailInput(
-        attrs={'class': 'form-control', 'placeholder': 'correo@ejemplo.com'}
-    ))
+        attrs={'class': 'form-control', 'placeholder': 'correo@ejemplo.com'}),
+        error_messages={
+            'required': 'Por favor, ingresa tu correo electrónico.',
+            'invalid': 'Por favor, ingresa un correo electrónico válido.'
+        }
+    )
     telefono_paciente = forms.CharField(label='Teléfono', max_length=15, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': '+56 9 1234 5678'}
-    ))
+        attrs={'class': 'form-control', 'placeholder': '+56 9 1234 5678'}),
+        error_messages={
+            'required': 'Por favor, ingresa tu número de teléfono.',
+            'max_length': 'El teléfono no puede exceder los 15 caracteres.'
+        }
+    )
     rut_paciente = forms.CharField(label='RUT', max_length=12, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': '12.345.678-9'}
-    ))
+        attrs={'class': 'form-control', 'placeholder': '12.345.678-9'}),
+        error_messages={
+            'required': 'Por favor, ingresa tu RUT.',
+            'max_length': 'El RUT no puede exceder los 12 caracteres.'
+        }
+    )
     # Campos específicos para esta vista
     medico = forms.ChoiceField(label='Médico', choices=[], widget=forms.Select(attrs={'class': 'form-select'}))
     hora = forms.ChoiceField(label='Hora de la Cita', choices=[], widget=forms.Select(attrs={'class': 'form-select'}))
@@ -144,7 +191,6 @@ class ReservaOnlineForm(forms.Form):
     
     def clean_telefono_paciente(self):
         telefono = self.cleaned_data['telefono_paciente']
-        telefono_limpio = telefono.replace(" ", "").replace("+", "")
-        if not telefono_limpio.isdigit():
-            raise forms.ValidationError("El teléfono solo debe contener números.")
+        if not re.match(r'^(\+?56\s?)?9\s?\d{4}\s?\d{4}$', telefono):
+            raise forms.ValidationError("El formato del teléfono debe ser, por ejemplo: +56 9 1234 5678.")
         return telefono
