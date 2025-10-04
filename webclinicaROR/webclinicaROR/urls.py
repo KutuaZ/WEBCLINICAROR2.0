@@ -31,6 +31,7 @@ urlpatterns = [
     path('historial/<str:rut>/', views.historial_paciente_rut, name='historial_paciente_rut'),
     path('historial_personal/', views.historial_personal, name='historial_personal'),
     path('resultados-laboratorio/', views.vista_resultados_laboratorio, name='resultados_laboratorio'),
+    path('perfil/editar/', views.editar_perfil, name='editar_perfil'),
     
     # Administración (Admin-Web)
     path('admin-portal/farmacia/', views.admin_farmacia, name='admin_farmacia'),

@@ -11,6 +11,7 @@ from django.utils import timezone
 from datetime import datetime, timedelta
 from django import forms
 
+
 from .models import (
     Paciente, Especialidad, Sede, Medico, HoraDisponible, Reserva,
     HistorialMedico, Ticket, Producto, Orden, OrdenProducto, Arancel, Cuenta,
@@ -18,7 +19,7 @@ from .models import (
 )
 from .forms import (
     ReservaForm, TicketForm, ProductoForm, CheckoutForm, ArancelForm, CuentaForm,
-    ReservaLabForm, ReservaOnlineForm
+    ReservaLabForm, ReservaOnlineForm, UserProfileForm
 )
 
 
@@ -585,3 +586,42 @@ def procesar_compra(request):
     request.session['carrito'] = {}
     messages.success(request, '¡Tu compra ha sido procesada con éxito!')
     return redirect('farmacia')
+
+
+
+
+
+
+@login_required
+def editar_perfil(request):
+    try:
+        # perfil de paciente asociado
+        paciente = request.user.paciente
+    except Paciente.DoesNotExist:
+        messages.error(request, "No tienes un perfil de paciente para editar.")
+        return redirect('index')
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST)
+        if form.is_valid():
+            # Actualiza los datos en el modelo User
+            request.user.first_name = form.cleaned_data['first_name']
+            request.user.last_name = form.cleaned_data['last_name']
+            request.user.save()
+
+            # Actualiza los datos en el modelo Paciente
+            paciente.telefono = form.cleaned_data['telefono']
+            paciente.save()
+
+            messages.success(request, '¡Tu perfil ha sido actualizado con éxito!')
+            return redirect('editar_perfil')
+    else:
+        # rellena el formulario con los datos actuales
+        initial_data = {
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'telefono': paciente.telefono
+        }
+        form = UserProfileForm(initial=initial_data)
+
+    return render(request, 'paginasenlace/editar_perfil.html', {'form': form})

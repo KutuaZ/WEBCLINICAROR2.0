@@ -172,7 +172,7 @@ body {
 .card-img-top-3 {
   display: block; /* elimina espacio debajo de la imagen */
   width: 100%;        /* ancho completo del contenedor */
-  height: 500px;       /* altura */
+  height: 500px;        /* altura */
   object-fit: cover;   /* recorta y ajusta la imagen para que no se deforme */
   border-radius: 15px 15px 0 0; /* bordes redondeados arriba */
   transition: transform 0.3s ease; /* transición suave */
