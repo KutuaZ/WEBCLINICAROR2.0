@@ -4,6 +4,7 @@ import re
 from .models import Ticket, Producto, Orden, Arancel, Cuenta
 from django.contrib.auth.models import User
 
+
 class ReservaForm(forms.Form):
     nombre_paciente = forms.CharField(label='Nombre Completo', max_length=100, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Juan Pérez'}),
@@ -95,6 +96,12 @@ class CheckoutForm(forms.ModelForm):
             'ciudad': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Santiago'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: +56 9 1234 5678'}),
         }
+    
+    def clean_telefono(self):
+        telefono = self.cleaned_data['telefono']
+        if not re.match(r'^(\+?56\s?)?9\s?\d{4}\s?\d{4}$', telefono):
+            raise forms.ValidationError("El formato del teléfono debe ser, por ejemplo: +56 9 1234 5678.")
+        return telefono
 
 class ArancelForm(forms.ModelForm):
     class Meta:
