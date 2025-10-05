@@ -24,7 +24,7 @@ urlpatterns = [
     path("api/aranceles/", views.listar_aranceles, name="listar_aranceles"),
     path("api/cuentas/", views.listar_cuentas, name="listar_cuentas"),
     path("api/resultados_laboratorio/", views.listar_resultados_laboratorio, name="listar_resultados_laboratorio"),
-    path("api/login/", views.login, name="api_login"),
+    path("api/auth/login/", views.login_api, name="login_api"),
 ]
 
     

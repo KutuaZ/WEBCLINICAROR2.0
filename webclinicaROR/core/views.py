@@ -739,7 +739,7 @@ def login_api(request):
             'success': False,
             'message': 'Por favor, proporciona nombre de usuario y contraseña.',
             'data': {},
-            'time': datetime.datetime.now(),
+            'time': timezone.now(),  
         }, status=status.HTTP_400_BAD_REQUEST)
     
     user = authenticate(username=username, password=password)
@@ -749,18 +749,19 @@ def login_api(request):
         respuesta = {
             'success': True,
             'message': 'Inicio de sesión exitoso.',
+            'token': token.key,  
             'user': {
                 'id': user.id,
                 'username': user.username,
                 'email': user.email,
-                },
-                'time': datetime.datetime.now(),
-            }
+            },
+            'time': timezone.now(),  
+        }
         return Response(respuesta)
     else:
         return Response({
             'success': False,
             'message': 'Nombre de usuario o contraseña incorrectos.',
             'data': {},
-            'time': datetime.datetime.now(),
+            'time': timezone.now(),  
         }, status=status.HTTP_401_UNAUTHORIZED)
