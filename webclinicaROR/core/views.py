@@ -10,7 +10,18 @@ from django.db import transaction
 from django.utils import timezone
 from datetime import datetime, timedelta
 from django import forms
-
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
+from .serializers import (
+    especialidadSerializer, sedeSerializer, medicoSerializer,
+    horaDisponibleSerializer, reservaSerializer, pacienteSerializer,
+    historialMedicoSerializer, ticketSerializer, productoSerializer,
+    ordenSerializer, ordenProductoSerializer, arancelSerializer, cuentaSerializer,
+    resultadoLaboratorioSerializer
+)
 
 from .models import (
     Paciente, Especialidad, Sede, Medico, HoraDisponible, Reserva,
@@ -625,3 +636,131 @@ def editar_perfil(request):
         form = UserProfileForm(initial=initial_data)
 
     return render(request, 'paginasenlace/editar_perfil.html', {'form': form})
+
+
+
+# Serializers (para API si es necesario)
+
+@api_view(['GET'])
+def listar_especialidades(request):
+    especialidades = Especialidad.objects.all()
+    serializer = especialidadSerializer(especialidades, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def listar_sedes(request):
+    sedes = Sede.objects.all()
+    serializer = sedeSerializer(sedes, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def listar_medicos(request):
+    medicos = Medico.objects.all()
+    serializer = medicoSerializer(medicos, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def listar_horas_disponibles(request):
+    horas = HoraDisponible.objects.all()
+    serializer = horaDisponibleSerializer(horas, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def listar_reservas(request):
+    reservas = Reserva.objects.all()
+    serializer = reservaSerializer(reservas, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def listar_pacientes(request):
+    pacientes = Paciente.objects.all()
+    serializer = pacienteSerializer(pacientes, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def listar_historiales_medicos(request):
+    historiales = HistorialMedico.objects.all()
+    serializer = historialMedicoSerializer(historiales, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def listar_tickets(request):
+    tickets = Ticket.objects.all()
+    serializer = ticketSerializer(tickets, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def listar_productos(request):
+    productos = Producto.objects.all()
+    serializer = productoSerializer(productos, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def listar_ordenes(request):
+    ordenes = Orden.objects.all()
+    serializer = ordenSerializer(ordenes, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def listar_orden_productos(request):
+    orden_productos = OrdenProducto.objects.all()
+    serializer = ordenProductoSerializer(orden_productos, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def listar_aranceles(request):
+    aranceles = Arancel.objects.all()
+    serializer = arancelSerializer(aranceles, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def listar_cuentas(request):
+    cuentas = Cuenta.objects.all()
+    serializer = cuentaSerializer(cuentas, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def listar_resultados_laboratorio(request):
+    resultados = ResultadoLaboratorio.objects.all()
+    serializer = resultadoLaboratorioSerializer(resultados, many=True)
+    return Response(serializer.data)
+
+
+
+# vista de autenticación de usuarios 
+
+@api_view(['POST'])
+def login_api(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    
+    if username is None or password is None:
+        return Response({
+            'success': False,
+            'message': 'Por favor, proporciona nombre de usuario y contraseña.',
+            'data': {},
+            'time': datetime.datetime.now(),
+        }, status=status.HTTP_400_BAD_REQUEST)
+    
+    user = authenticate(username=username, password=password)
+    
+    if user:
+        token, created = Token.objects.get_or_create(user=user)
+        respuesta = {
+            'success': True,
+            'message': 'Inicio de sesión exitoso.',
+            'user': {
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+                },
+                'time': datetime.datetime.now(),
+            }
+        return Response(respuesta)
+    else:
+        return Response({
+            'success': False,
+            'message': 'Nombre de usuario o contraseña incorrectos.',
+            'data': {},
+            'time': datetime.datetime.now(),
+        }, status=status.HTTP_401_UNAUTHORIZED)
