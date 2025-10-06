@@ -10,6 +10,9 @@ from django.db import transaction
 from django.utils import timezone
 from datetime import datetime, timedelta
 from django import forms
+import requests
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -639,7 +642,7 @@ def editar_perfil(request):
 
 
 
-# Serializers (para API si es necesario)
+# Serializers (para API )
 
 @api_view(['GET'])
 def listar_especialidades(request):
@@ -765,3 +768,75 @@ def login_api(request):
             'data': {},
             'time': timezone.now(),  
         }, status=status.HTTP_401_UNAUTHORIZED)
+        
+        
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def perfil_usuario(request):
+    user = request.user
+    respuesta = {
+        'success': True,
+        'message': 'Perfil de usuario autenticado.',
+        'user': {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+        },
+        'time': timezone.now(),  
+    }
+    return Response(respuesta)
+
+
+@api_view(['GET'])
+def indicadores_economicos_api(request):
+    """
+    Obtiene indicadores económicos de Chile - útil para facturación clínica
+    """
+    try:
+        import requests
+        
+        # API del Banco Central de Chile
+        response = requests.get('https://mindicador.cl/api', timeout=10, verify=False)
+        
+        if response.status_code == 200:
+            datos = response.json()
+            
+            return Response({
+                'success': True,
+                'mensaje': 'Indicadores económicos obtenidos exitosamente',
+                'servicio_externo': 'MinIndicador.cl (Banco Central de Chile)',
+                'fecha_actualizacion': datos.get('fecha'),
+                'dolar': {
+                    'valor': datos.get('dolar', {}).get('valor'),
+                    'fecha': datos.get('dolar', {}).get('fecha')
+                },
+                'uf': {
+                    'valor': datos.get('uf', {}).get('valor'),
+                    'fecha': datos.get('uf', {}).get('fecha')
+                },
+                'euro': {
+                    'valor': datos.get('euro', {}).get('valor'),
+                    'fecha': datos.get('euro', {}).get('fecha')
+                },
+                'utilidad_clinica': 'Para calcular precios de consultas médicas en diferentes monedas',
+                'aplicacion': 'Sistema de facturación para pacientes extranjeros',
+                'api_url': 'https://mindicador.cl/api',
+                'time': timezone.now()
+            })
+        else:
+            return Response({
+                'success': False,
+                'error': f'Error en API: {response.status_code}',
+                'servicio_externo': 'MinIndicador.cl',
+                'time': timezone.now()
+            }, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+            
+    except Exception as e:
+        return Response({
+            'success': False,
+            'error': f'Error: {str(e)}',
+            'servicio_externo': 'MinIndicador.cl',
+            'time': timezone.now()
+        }, status=status.HTTP_503_SERVICE_UNAVAILABLE)

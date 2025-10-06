@@ -25,6 +25,10 @@ urlpatterns = [
     path("api/cuentas/", views.listar_cuentas, name="listar_cuentas"),
     path("api/resultados_laboratorio/", views.listar_resultados_laboratorio, name="listar_resultados_laboratorio"),
     path("api/auth/login/", views.login_api, name="login_api"),
+    path("api/auth/perfil/", views.perfil_usuario, name="perfil_usuario"),
+
+
+    path("api/indicadores-economicos/", views.indicadores_economicos_api, name="indicadores_economicos_api"),
 ]
 
     
