@@ -29,6 +29,8 @@ urlpatterns = [
 
 
     path("api/indicadores-economicos/", views.indicadores_economicos_api, name="indicadores_economicos_api"),
+    path("api/clima-salud/", views.clima_salud_api, name="clima_salud_api"),  
+
 ]
 
     

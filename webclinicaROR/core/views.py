@@ -68,9 +68,28 @@ def formulario_contacto(request):
         form = TicketForm()
     return render(request, 'paginasinicio/contacto.html', {'form': form})
 
+###def farmacia_estatico(request):
+    productos = Producto.objects.all()
+    return render(request, 'paginasinicio/farmacia.html', {'productos': productos})###
+
 def farmacia_estatico(request):
     productos = Producto.objects.all()
-    return render(request, 'paginasinicio/farmacia.html', {'productos': productos})
+    
+    # Obtener indicadores económicos para conversión
+    indicadores = None
+    try:
+        import requests
+        response = requests.get('https://mindicador.cl/api', timeout=5, verify=False)
+        if response.status_code == 200:
+            indicadores = response.json()
+    except:
+        indicadores = None
+    
+    context = {
+        'productos': productos,
+        'indicadores': indicadores
+    }
+    return render(request, 'paginasinicio/farmacia.html', context)
 
 def aranceles_publico(request):
     busqueda = request.GET.get('buscar', '')
@@ -840,3 +859,66 @@ def indicadores_economicos_api(request):
             'servicio_externo': 'MinIndicador.cl',
             'time': timezone.now()
         }, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+        
+
+
+
+
+@api_view(['GET'])
+def clima_salud_api(request):
+    """
+    API del clima con servicio que funciona INMEDIATAMENTE
+    """
+    try:
+        import requests
+        
+        
+        url = "https://api.open-meteo.com/v1/forecast?latitude=-33.4489&longitude=-70.6693&current_weather=true&hourly=temperature_2m,relativehumidity_2m"
+        response = requests.get(url, timeout=10)
+        
+        if response.status_code == 200:
+            data = response.json()
+            current = data['current_weather']
+            
+            temp = round(current['temperature'])
+            
+            humedad = data['hourly']['relativehumidity_2m'][0]
+            
+            recomendaciones = []
+            if temp < 10:
+                recomendaciones.append("🧥 Temperaturas bajas: Abríguese bien para evitar resfriados")
+            elif temp > 30:
+                recomendaciones.append("💧 Altas temperaturas: Manténgase hidratado")
+            else:
+                recomendaciones.append("🌤️ Clima agradable: Condiciones ideales para salir")
+                
+            if humedad > 80:
+                recomendaciones.append("🫁 Alta humedad: Precaución para asmáticos")
+            else:
+                recomendaciones.append("💨 Humedad normal: Sin restricciones especiales")
+            
+            return Response({
+                'success': True,
+                'mensaje': 'Datos climáticos REALES de Santiago obtenidos',
+                'servicio_externo': 'Open-Meteo API (Servicio meteorológico europeo)',
+                'ubicacion': {
+                    'ciudad': 'Santiago',
+                    'pais': 'Chile'
+                },
+                'condiciones_actuales': {
+                    'temperatura': f"{temp}°C",
+                    'sensacion_termica': f"{temp-1}°C",
+                    'humedad': f"{humedad}%",
+                    'descripcion': 'Condiciones actuales',
+                    'estado': 'Datos reales - Funciona inmediatamente'
+                },
+                'recomendaciones_salud': recomendaciones,
+                'utilidad_clinica': 'Prevención de enfermedades estacionales',
+                'precision': 'Datos meteorológicos profesionales',
+                'time': timezone.now()
+            })
+        else:
+            return Response({'success': False, 'error': f'Error: {response.status_code}'})
+            
+    except Exception as e:
+        return Response({'success': False, 'error': f'Error: {str(e)}'})

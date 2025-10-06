@@ -895,3 +895,50 @@ body {
 .main-content-area {
     flex: 1; 
 }
+
+
+
+/* Sección Clima y Salud */
+.clima-salud-section {
+    background: linear-gradient(135deg, #e8f5e8 0%, #f0f9ff 100%);
+    border-radius: 15px;
+    margin: 0 15px;
+}
+
+.clima-info-card {
+    transition: all 0.3s ease;
+    border-left: 4px solid #449278 !important;
+}
+
+.clima-info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(77, 145, 112, 0.15) !important;
+}
+
+.clima-recomendaciones .alert {
+    border-radius: 10px;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.clima-recomendaciones .alert-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #856404;
+}
+
+.clima-recomendaciones .alert-info {
+    background-color: rgba(13, 202, 240, 0.1);
+    color: #055160;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .clima-salud-section {
+        margin: 0 5px;
+        text-align: center;
+    }
+    
+    .clima-info-card {
+        margin-bottom: 1rem;
+    }
+}
